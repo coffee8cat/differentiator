@@ -1,0 +1,18 @@
+digraph
+{
+    rankdir=TP
+
+        node007D0E80[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 007D0E80 | type: 1 | value: 0.000000| { left: 007D0E60 | right: 007D0E00 }}"];
+    node007D0E80 -> node007D0E60[color="#0855F0"]
+    node007D0E60[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0E60 | type: 1 | value: 2.000000| { left: 007D0E40 | right: 007D0E20 }}"];
+    node007D0E60 -> node007D0E40[color="#0855F0"]
+    node007D0E40[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0E40 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node007D0E60 -> node007D0E20[color="#0855F0"]
+    node007D0E20[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0E20 | type: 0 | value: 50.000000| { left: 00000000 | right: 00000000 }}"];
+    node007D0E80 -> node007D0E00[color="#0855F0"]
+    node007D0E00[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0E00 | type: 1 | value: 2.000000| { left: 007D0DE0 | right: 007D0DC0 }}"];
+    node007D0E00 -> node007D0DE0[color="#0855F0"]
+    node007D0DE0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0DE0 | type: 0 | value: 50.000000| { left: 00000000 | right: 00000000 }}"];
+    node007D0E00 -> node007D0DC0[color="#0855F0"]
+    node007D0DC0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0DC0 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+}

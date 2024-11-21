@@ -1,0 +1,10 @@
+digraph
+{
+    rankdir=TP
+
+        node007D0D40[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 007D0D40 | type: 1 | value: 2.000000| { left: 007D0D60 | right: 007D0D80 }}"];
+    node007D0D40 -> node007D0D60[color="#0855F0"]
+    node007D0D60[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0D60 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+    node007D0D40 -> node007D0D80[color="#0855F0"]
+    node007D0D80[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 007D0D80 | type: 0 | value: 50.000000| { left: 00000000 | right: 00000000 }}"];
+}
