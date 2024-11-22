@@ -5,14 +5,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 
 const size_t default_str_size = 32;
 
+#define DEF_OPER(oper, ...) oper,
 enum operations {
-    ADD, SUB, MUL, DIV,
-    SIN, COS,
-    POW, LOG
+    #include "diff_rules_DSL.h"
 };
+#undef DEF_OPER
 
 enum node_type {NUM, OP, VAR};
 
@@ -31,6 +32,9 @@ void skip_until(char ch, FILE* stream);
 
 double eval (node_t* node);
 node_t* diff(node_t* node);
+
+void optimize(node_t* node);
+size_t const_folding(node_t* node);
 
 node_t* copy_tree(node_t* root);
 bool check_vars(node_t* node);

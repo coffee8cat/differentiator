@@ -17,6 +17,7 @@ HEADERS_DIR = headers
 GLOBAL_HEADERS = ..\headers
 LIBS = libs\my_stack
 LIB_SRC = libs\my_stack\my_stack.cpp
+DSL = DSL
 
 BUILD_DIR = build
 OBJ_DIR = obj
@@ -47,7 +48,7 @@ clean:
 	rm $(OBJ_DIR)
 
 create_obj:
-	$(CC) $(SOURCES) -c -I$(HEADERS_DIR) -D$(DEBUG) $(CFLAGS)
+	$(CC) $(SOURCES) -c -I$(HEADERS_DIR) -I$(DSL) -D$(DEBUG) $(CFLAGS)
 	mv *.o $(OBJ_DIR)
 
 linkage:

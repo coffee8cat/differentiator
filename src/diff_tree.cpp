@@ -1,9 +1,10 @@
 #include "diff_tree.h"
 
 const double Global_x = 2.0;
+
 #define _NUM(n) new_node(NUM, n, NULL, NULL)
 #define _VAR(x) new_node(VAR, x, NULL, NULL)
-
+/*
 #define _ADD(a, b) new_node(OP, ADD, a, b)
 #define _MUL(a, b) new_node(OP, MUL, a, b)
 
@@ -11,7 +12,7 @@ const double Global_x = 2.0;
 #define dR  diff (node -> right)
 #define cL  copy_tree (node -> right)
 #define cR  copy_tree (node -> right)
-
+*/
 node_t* new_node(node_type type, double value, node_t* left, node_t* right)
 {
     node_t* node = (node_t*)calloc(1, sizeof(node_t));
@@ -94,44 +95,71 @@ double eval(node_t* node)
     if (node -> type == VAR) { return Global_x; }
     if (node -> type == OP)
     {
+        #define DEF_OPER(oper, eval_rule, ...) case oper: return eval_rule;
         switch ((int)node -> value)
         {
-            case ADD: return eval(node -> left) + eval(node -> right);
-            case MUL: return eval(node -> left) * eval(node -> right);
+            #include "diff_rules_DSL.h"
             default: fprintf(stderr, "ERROR: No such operation - [%lf]", node -> value);
                      break;
         }
+        #undef DEF_OPER
     }
 
     return -1;
 }
+
 
 node_t* diff(node_t* node)
 {
     assert(node);
 
     // !!! not for partial derivatives yet !!!
-    if (node -> type == NUM) { return new_node(NUM, 0, NULL, NULL);}
-    if (node -> type == VAR) { return new_node(NUM, 1, NULL, NULL);}
+    if (node -> type == NUM) { return _NUM(0);}
+    if (node -> type == VAR) { return _NUM(1);}
     if (node -> type == OP)
     {
+        #define DEF_OPER(oper, eval_rule, diff_rule) case oper: return diff_rule;
         switch ((int)node -> value)
         {
-            case ADD: return _ADD (dL, dR);
-            case MUL: return _ADD (_MUL (dL, cR), _MUL (cL, dR));
-            //case DIV: return
-            //case SUB:
-            //case SIN:
-            //case COS:
-            //case POW:
-            //case LOG:
-
+            #include "diff_rules_DSL.h"
             default: fprintf(stderr, "ERROR: Unknown operation for differentiator - [%lf]", node -> value);
                      break;
         }
+        #undef DEF_OPER
     }
 
     return NULL;
+}
+
+void optimize(node_t* node)
+{
+    assert(node);
+
+    size_t opt_counter = 1;
+    while (opt_counter > 0)
+    {
+        opt_counter = const_folding(node);
+    }
+}
+
+size_t const_folding(node_t* node)
+{
+    assert(node);
+
+    size_t opt_counter = 0;
+
+    if (node -> type == OP && !check_vars(node))
+    {
+        node -> value = eval(node);
+        printf("EVALUATION: [%p] <- %lf", node -> value);
+        node -> type  = NUM;
+        node -> left  = NULL; node -> right = NULL;
+        opt_counter++;
+    }
+    if (node -> left)  { opt_counter += const_folding(node -> left);}
+    if (node -> right) { opt_counter += const_folding(node -> right);}
+
+    return opt_counter;
 }
 
 node_t* copy_tree(node_t* root)
