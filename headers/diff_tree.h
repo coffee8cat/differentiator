@@ -17,28 +17,42 @@ enum operations {
 
 enum node_type {NUM, OP, VAR};
 
-struct node_t {
+struct node_t
+{
     node_type type;
     double value;
     node_t* left;
     node_t* right;
+    node_t* parent;
 };
 
+//== TREE FUNCTIONS =========================================================================//
 node_t* new_node(node_type type, double value, node_t* left, node_t* right);
+void fix_parents(node_t* node);
+void fix_tree(node_t* node);
+int tree_dtor(node_t* node);
 
+//== READING AND DUMPING ====================================================================//
 int read_tree(node_t** node, FILE* stream, FILE* html_stream);
 node_t* read_node(FILE* stream);
 void skip_until(char ch, FILE* stream);
 
+//== CALCULATIONS ===========================================================================//
 double eval (node_t* node);
 node_t* diff(node_t* node);
 
-void optimize(node_t* node);
+//== OPTIMISATION ===========================================================================//
+void optimize(node_t* node, FILE* html_stream);
 size_t const_folding(node_t* node);
 
+size_t remove_neutral_elems(node_t** node);
+size_t ADD_optimisation(node_t** node);
+size_t MUL_optimisation(node_t** node);
+size_t SUB_optimisation(node_t** node);
+size_t POW_optimisation(node_t** node);
+
+//== SECONDARY FUNCTIONS ====================================================================//
 node_t* copy_tree(node_t* root);
 bool check_vars(node_t* node);
-
-int tree_dtor(node_t* node);
 
 #endif

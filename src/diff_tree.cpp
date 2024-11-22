@@ -1,4 +1,5 @@
 #include "diff_tree.h"
+#include "tree_dump.h"
 
 const double Global_x = 2.0;
 
@@ -27,6 +28,21 @@ node_t* new_node(node_type type, double value, node_t* left, node_t* right)
     node -> right = right;
 
     return node;
+}
+
+void fix_parents(node_t* node)
+{
+    assert(node);
+    if (node -> right) {(node -> right) -> parent = node;}
+    if (node -> left)  {(node -> left) ->  parent = node;}
+}
+
+void fix_tree(node_t* node)
+{
+    assert(node);
+    fix_parents(node);
+    if (node -> right) { fix_parents(node -> right); }
+    if (node -> left)  { fix_parents(node -> left);  }
 }
 
 int read_tree(node_t** node, FILE* stream, FILE* html_stream)
@@ -131,15 +147,20 @@ node_t* diff(node_t* node)
     return NULL;
 }
 
-void optimize(node_t* node)
+void optimize(node_t* node, FILE* html_stream)
 {
     assert(node);
 
     size_t opt_counter = 1;
     while (opt_counter > 0)
     {
-        opt_counter = const_folding(node);
+        opt_counter = 0;
+        opt_counter += const_folding(node);
+        opt_counter += remove_neutral_elems(&node);
+
+        tree_dump(node, html_stream, node);
     }
+
 }
 
 size_t const_folding(node_t* node)
@@ -156,8 +177,96 @@ size_t const_folding(node_t* node)
         node -> left  = NULL; node -> right = NULL;
         opt_counter++;
     }
-    if (node -> left)  { opt_counter += const_folding(node -> left);}
-    if (node -> right) { opt_counter += const_folding(node -> right);}
+    if (node -> left)  { opt_counter += const_folding(node -> left);  }
+    if (node -> right) { opt_counter += const_folding(node -> right); }
+
+    return opt_counter;
+}
+
+size_t remove_neutral_elems(node_t** node)
+{
+    assert(node);
+
+    size_t opt_counter = 0;
+    if ((*node) -> type == OP)
+    {
+        switch((int)(*node) -> value)
+        {
+            case ADD: opt_counter += ADD_optimisation(node); printf("ADD OPTIMISATION\n"); break;
+            case SUB: opt_counter += SUB_optimisation(node); printf("SUB OPTIMISATION\n"); break;
+            case MUL: opt_counter += MUL_optimisation(node); printf("MUL OPTIMISATION\n"); break;
+            //case POW: opt_counter += POW_optimisation(&node); break;
+            default: break;
+        }
+    }
+
+    if ((*node) -> left)  { opt_counter += remove_neutral_elems(&(*node) -> left);  }
+    if ((*node) -> right) { opt_counter += remove_neutral_elems(&(*node) -> right); }
+
+    return opt_counter;
+}
+
+size_t ADD_optimisation(node_t** node)
+{
+    assert(node);
+    assert(*node);
+
+    size_t opt_counter = 0;
+    if      (((*node) -> left)  -> type == NUM && ((*node) -> left)  -> value == 0) { *node = (*node) -> right; opt_counter++; }
+    else if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { *node = (*node) -> left;  opt_counter++; }
+
+    return opt_counter;
+}
+
+size_t SUB_optimisation(node_t** node)
+{
+    assert(node);
+    assert(*node);
+
+    size_t opt_counter = 0;
+    if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { *node = (*node) -> left;  opt_counter++; }
+
+    return opt_counter;
+}
+
+size_t MUL_optimisation(node_t** node)
+{
+    assert(node);
+    assert(*node);
+
+    size_t opt_counter = 0;
+    if (((*node) -> left)  -> type == NUM)
+    {
+        if      (((*node) -> left) -> value == 0) { *node = (*node) -> left;  opt_counter++; }
+        else if (((*node) -> left) -> value == 1) { *node = (*node) -> right; opt_counter++; }
+
+    }
+    else if (((*node) -> right) -> type == NUM)
+    {
+        if      (((*node) -> right) -> value == 0) { *node = (*node) -> right; opt_counter++; }
+        else if (((*node) -> right) -> value == 1) { *node = (*node) -> left;  opt_counter++; }
+    }
+
+    return opt_counter;
+}
+
+size_t POW_optimisation(node_t** node)
+{
+    assert(node);
+    assert(*node);
+
+    size_t opt_counter = 0;
+    if (((*node) -> left)  -> type == NUM)
+    {
+        if      (((*node) -> left) -> value == 0) { *node = (*node) -> left; opt_counter++; }
+        else if (((*node) -> left) -> value == 1) { *node = (*node) -> left; opt_counter++; }
+
+    }
+    else if (((*node) -> right) -> type == NUM)
+    {
+        if      (((*node) -> right) -> value == 0) { *node = _NUM(1);         opt_counter++; }
+        else if (((*node) -> right) -> value == 1) { *node = (*node) -> left; opt_counter++; }
+    }
 
     return opt_counter;
 }

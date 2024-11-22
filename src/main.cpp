@@ -9,7 +9,7 @@ int main()
         return -1;
 
     node_t* root  = new_node(OP, DIV, NULL, NULL);
-    root -> left  = new_node(OP, MUL, new_node(VAR, 'x', NULL, NULL), new_node(NUM, 3, NULL, NULL));
+    root -> left  = new_node(OP, MUL, new_node(VAR, 'x', NULL, NULL), new_node(VAR, 'x', NULL, NULL));
     root -> right = new_node(NUM, 50, NULL, NULL);
     tree_dump(root, html_stream, root);
 
@@ -17,8 +17,9 @@ int main()
 
     node_t* diff_root = diff(root);
 
+    tree_dump(diff_root, html_stream, diff_root);
     printf("diff eval: %lf\n", eval(diff_root));
-    optimize(diff_root);
+    optimize(diff_root, html_stream);
     printf("optimized: %p", diff_root);
 
     tree_dump(diff_root, html_stream, diff_root);
