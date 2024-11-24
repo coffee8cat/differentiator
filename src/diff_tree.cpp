@@ -5,15 +5,7 @@ const double Global_x = 2.0;
 
 #define _NUM(n) new_node(NUM, n, NULL, NULL)
 #define _VAR(x) new_node(VAR, x, NULL, NULL)
-/*
-#define _ADD(a, b) new_node(OP, ADD, a, b)
-#define _MUL(a, b) new_node(OP, MUL, a, b)
 
-#define dL  diff (node -> left)
-#define dR  diff (node -> right)
-#define cL  copy_tree (node -> right)
-#define cR  copy_tree (node -> right)
-*/
 node_t* new_node(node_type type, double value, node_t* left, node_t* right)
 {
     node_t* node = (node_t*)calloc(1, sizeof(node_t));
@@ -45,62 +37,104 @@ void fix_tree(node_t* node)
     if (node -> left)  { fix_parents(node -> left);  }
 }
 
-int read_tree(node_t** node, FILE* stream, FILE* html_stream)
+node_t* read_node(const char** curr, const char* end, FILE* html_stream)
 {
-    assert(node);
-    assert(stream);
+    assert(end);
+    assert(curr);
+    assert(*curr);
     assert(html_stream);
 
-    char ch = 0;
-    node_t* temp = NULL;
-    fscanf(stream, " %c", &ch);
-    switch (ch)
+    if (*curr >= end) { fprintf(stderr, "STRING END REACHED\n"); return NULL; }
+    *curr = skip_space(*curr);
+    printf("%s\n", *curr);
+
+    //== HANDLE TERMINAL NODES ===================================================//
+    if (isdigit(**curr))
     {
-        case '{':
-        {
-            *node = read_node(stream);
-            read_tree(node, stream, html_stream);
-            break;
-        }
-        case 'y':
-        {
-            skip_until('{', stream);
+        double num = atof(*curr);
 
-            if (((*node) -> right = read_node(stream)) == NULL) { fprintf(stderr, "ERROR: Uploading tree failed\n"); return -1;}
-
-            read_tree(&((*node) -> right), stream, html_stream);
-        }
-        case 'n':
-        {
-            skip_until('{', stream);
-            if (((*node) -> left = read_node(stream)) == NULL) { fprintf(stderr, "ERROR: Uploading tree failed\n"); return -1;}
-
-            read_tree(&((*node) -> left), stream, html_stream);
-            break;
-        }
-        case '}': {return 0;}
-        default:{fprintf(stderr, "Unknown option: %c\n", ch); break;}
+        printf("ADDING NUM NODE: %lf\n", num);
+        return _NUM(num);
     }
-    return 0;
+
+    if (**curr != '{')
+    {                                       // here check if it is in var list, add if yes, else skip
+        *curr = skip_space(*curr);
+        if (**curr == 'x')
+        {
+            char var = **curr;
+            return _VAR('x'); // create var node
+        }
+    }
+
+    //== FUNCTIONS READING =======================================================//
+    node_t* first_arg = NULL;
+    if (**curr == '{')
+    {
+        (*curr)++;
+        first_arg = read_node(curr, end, html_stream);
+        *curr = skip_until(*curr, '}');
+        (*curr)++;
+    }
+
+    *curr = skip_space(*curr);
+    printf("%s\n", *curr);
+    enum operations func = read_func_name(curr);
+    node_t* op_node = new_node(OP, func, NULL, NULL);
+
+    *curr = skip_space(*curr);
+    printf("%s\n", *curr);
+    node_t* second_arg = NULL;
+    if (**curr == '{')
+    {
+        (*curr)++;
+        second_arg = read_node(curr, end, html_stream);
+        *curr = skip_until(*curr, '}');
+        (*curr)++;
+    }
+
+    op_node -> left  = first_arg;
+    op_node -> right = second_arg;
+
+    return op_node;
 }
 
-node_t* read_node(FILE* stream)
+enum operations read_func_name(const char** curr)
 {
-    assert(stream);
+    assert(curr);
+    assert(*curr);
 
-    char label[default_str_size] = {};
-    fscanf(stream, " \"%[^\"]\"", label);
+    #define DEF_OPER(oper, eval_rule, diff, call_name)          \
+    if (strncmp(*curr, call_name, strlen(call_name)) == 0)      \
+    {                                                           \
+        printf("oper: %s\n", call_name);                        \
+        *curr = *curr + strlen(call_name);                      \
+        return oper;                                            \
+    }                                                           \
 
-    return new_node(OP, 0, NULL, NULL);
+    #include "diff_rules_DSL.h"
+
+    #undef DEF_OPER
+
+    fprintf(stderr, "ERROR: Unknown function: %s", *curr);
+    return UNKNOWN;
 }
 
-void skip_until(char ch, FILE* stream)
+const char* skip_space(const char* curr)
 {
-    assert(stream);
+    assert(curr);
+    printf("skipping space start on %c(%d)[%p] ", *curr, *curr, curr);
+    while(isspace(*curr)) { curr++; }
+    printf("end on %c(%d)[%p]\n", *curr, *curr, curr);
+    return curr;
+}
 
-    char temp = 0;
-    while(temp != ch)
-        fscanf(stream, "%c", &temp);
+const char* skip_until(const char* curr, char ch)
+{
+    assert(curr);
+    while(*curr != ch) { curr++; }
+
+    return curr;
 }
 
 double eval(node_t* node)
@@ -124,7 +158,6 @@ double eval(node_t* node)
     return -1;
 }
 
-
 node_t* diff(node_t* node)
 {
     assert(node);
@@ -134,7 +167,7 @@ node_t* diff(node_t* node)
     if (node -> type == VAR) { return _NUM(1);}
     if (node -> type == OP)
     {
-        #define DEF_OPER(oper, eval_rule, diff_rule) case oper: return diff_rule;
+        #define DEF_OPER(oper, eval_rule, diff_rule, ...) case oper: return diff_rule;
         switch ((int)node -> value)
         {
             #include "diff_rules_DSL.h"

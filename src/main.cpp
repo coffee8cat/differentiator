@@ -8,6 +8,11 @@ int main()
     if (html_stream == NULL)
         return -1;
 
+    const char* buff = "{12} + { {ln{5}} * {x}}";
+    node_t* node1 = read_node(&buff, buff + strlen(buff), html_stream);
+    tree_dump(node1, html_stream, node1);
+
+
     node_t* root  = new_node(OP, DIV, NULL, NULL);
     root -> left  = new_node(OP, MUL, new_node(VAR, 'x', NULL, NULL), new_node(VAR, 'x', NULL, NULL));
     root -> right = new_node(NUM, 50, NULL, NULL);

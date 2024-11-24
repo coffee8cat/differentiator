@@ -4,31 +4,38 @@
 
 DEF_OPER(ADD,
     LEFT + RIGHT,
-    _ADD (dL, dR))
+    _ADD (dL, dR),
+    "+")
 
 DEF_OPER(SUB,
     LEFT - RIGHT,
-    _SUB (dL, dR))
+    _SUB (dL, dR),
+    "-")
 
 DEF_OPER(MUL,
     LEFT * RIGHT,
-    _ADD (_MUL (dL, cR), _MUL (cL, dR)))
+    _ADD (_MUL (dL, cR), _MUL (cL, dR)),
+    "*")
 
 DEF_OPER(DIV,
     LEFT / RIGHT,
-    _DIV (_SUB (_MUL (dL, cR), _MUL(cL, dR)), _MUL(cR, cR)))
+    _DIV (_SUB (_MUL (dL, cR), _MUL(cL, dR)), _MUL(cR, cR)),
+    "/")
 
 DEF_OPER(SIN,
     sin(LEFT),
-    _MUL (_COS(cL), dL))
+    _MUL (_COS(cL), dL),
+    "sin")
 
 DEF_OPER(COS,
     cos(LEFT),
-    _MUL (_SIN (_MUL ( _NUM(-1), cL)), dL))
+    _MUL (_SIN (_MUL ( _NUM(-1), cL)), dL),
+    "cos")
 
 DEF_OPER(LOG,
     log(LEFT),
-    _DIV (dL, cL))
+    _DIV (dL, cL),
+    "ln")
 
 /*
 DEF_OPER(POW,

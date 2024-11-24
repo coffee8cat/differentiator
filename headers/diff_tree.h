@@ -6,12 +6,14 @@
 #include <string.h>
 #include <assert.h>
 #include <math.h>
+#include <ctype.h>
 
 const size_t default_str_size = 32;
 
 #define DEF_OPER(oper, ...) oper,
 enum operations {
     #include "diff_rules_DSL.h"
+    UNKNOWN
 };
 #undef DEF_OPER
 
@@ -33,9 +35,11 @@ void fix_tree(node_t* node);
 int tree_dtor(node_t* node);
 
 //== READING AND DUMPING ====================================================================//
-int read_tree(node_t** node, FILE* stream, FILE* html_stream);
-node_t* read_node(FILE* stream);
-void skip_until(char ch, FILE* stream);
+
+node_t* read_node(const char** curr, const char* end, FILE* html_stream);
+enum operations read_func_name(const char** curr);
+const char* skip_space(const char* curr);
+const char* skip_until(const char* curr, char ch);
 
 //== CALCULATIONS ===========================================================================//
 double eval (node_t* node);
