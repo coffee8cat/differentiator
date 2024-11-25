@@ -9,22 +9,20 @@ int main()
         return -1;
 
     //const char* buff = "{12} + { {ln{5}} * {x}}";
-    const char* buff = "{{x} - {0}} * {x}";
+    const char* buff = "{x} ^ {x}";
     node_t* node1 = read_node(&buff, buff + strlen(buff), html_stream);
     tree_dump(node1, html_stream, node1);
 
-    /*node_t* diff_root1 = diff(node1);
-    tree_dump(diff_root1, html_stream, diff_root1);*/
+    node_t* diff_root1 = diff(node1);
+    tree_dump(diff_root1, html_stream, diff_root1);
 
-    optimize(node1, html_stream);
-    printf("OPTIMISATION END, diff_root: [%p]\n", node1);
-    printf("1111111111");
-    tree_dump(node1, html_stream, node1);
+    optimize(diff_root1, html_stream);
+    printf("OPTIMISATION END, diff_root: [%p]\n", diff_root1);
 
-    //printf("diff eval: %lf\n", eval(diff_root1));
+    tree_dump(diff_root1, html_stream, diff_root1);
 
-    printf("HERE\n");
-    node_t* root  = new_node(OP, DIV, NULL, NULL);
+    write_node(diff_root1);
+    /*node_t* root  = new_node(OP, DIV, NULL, NULL);
     root -> left  = new_node(OP, POW, new_node(VAR, 'x', NULL, NULL), new_node(NUM, 2, NULL, NULL));
     root -> right = new_node(NUM, 50, NULL, NULL);
     tree_dump(root, html_stream, root);
@@ -42,7 +40,7 @@ int main()
 
     printf("diff eval: %lf\n", eval(diff_root));
     tree_dtor(root);
-    tree_dtor(diff_root);
+    tree_dtor(diff_root);*/
 
     return 0;
 }

@@ -43,7 +43,7 @@ DEF_OPER(POW,
     bool var_in_base   = check_vars(node -> left);
     bool var_in_degree = check_vars(node -> right);
 
-    if (var_in_base && var_in_degree) { return _MUL(_ADD(_MUL(dR, _LOG(cL)), _DIV( _MUL(dL, cR), cL)), _POW(cL, cR)); }   // memory leak
+    if (var_in_base && var_in_degree) { return _MUL(_ADD(_MUL(dR, _LOG(cL)), _DIV( _MUL(dL, cR), cL)), _POW(cL, cR)); }
     if (var_in_base)                  { return _MUL(dL, _MUL(cR, _POW(cL, _SUB(cR, _NUM(1))))); }
     if (var_in_degree)                { return _MUL(_POW(cL, cR), _MUL(dR, _LOG(cL))); }
 
