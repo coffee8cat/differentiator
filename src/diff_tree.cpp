@@ -198,9 +198,11 @@ void optimize(node_t* node, FILE* html_stream)
 
 size_t const_folding(node_t* node)
 {
-    assert(node);
+    if (!node) { return 0; }
 
     size_t opt_counter = 0;
+    if (node -> left)  { opt_counter += const_folding(node -> left);  }
+    if (node -> right) { opt_counter += const_folding(node -> right); }
 
     if (node -> type == OP && !check_vars(node))
     {
@@ -213,17 +215,18 @@ size_t const_folding(node_t* node)
 
         printf("EVALUATION: [%p] <- %lf", node -> value);
     }
-    if (node -> left)  { opt_counter += const_folding(node -> left);  }
-    if (node -> right) { opt_counter += const_folding(node -> right); }
 
     return opt_counter;
 }
 
 size_t remove_neutral_elems(node_t** node)
 {
-    assert(node);
+    if (!node) { return 0; }
 
     size_t opt_counter = 0;
+    if ((*node) -> left)  { opt_counter += remove_neutral_elems(&(*node) -> left);  }
+    if ((*node) -> right) { opt_counter += remove_neutral_elems(&(*node) -> right); }
+
     if ((*node) -> type == OP)
     {
         switch((int)(*node) -> value)
@@ -235,9 +238,6 @@ size_t remove_neutral_elems(node_t** node)
             default: break;
         }
     }
-
-    if ((*node) -> left)  { opt_counter += remove_neutral_elems(&(*node) -> left);  }
-    if ((*node) -> right) { opt_counter += remove_neutral_elems(&(*node) -> right); }
 
     return opt_counter;
 }
