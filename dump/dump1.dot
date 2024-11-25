@@ -2,15 +2,13 @@ digraph
 {
     rankdir=TP
 
-        node00DA0D68[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00DA0D68 | type: 1 | value: 0.000000| { left: 00DA0D40 | right: 00DA0DE0 }}"];
-    node00DA0D68 -> node00DA0D40[color="#0855F0"]
-    node00DA0D40[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DA0D40 | type: 0 | value: 12.000000| { left: 00000000 | right: 00000000 }}"];
-    node00DA0D68 -> node00DA0DE0[color="#0855F0"]
-    node00DA0DE0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DA0DE0 | type: 1 | value: 2.000000| { left: 00DA0D90 | right: 00DA0E08 }}"];
-    node00DA0DE0 -> node00DA0D90[color="#0855F0"]
-    node00DA0D90[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DA0D90 | type: 1 | value: 6.000000| { left: 00000000 | right: 00DA0DB8 }}"];
-    node00DA0D90 -> node00DA0DB8[color="#0855F0"]
-    node00DA0DB8[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DA0DB8 | type: 0 | value: 5.000000| { left: 00000000 | right: 00000000 }}"];
-    node00DA0DE0 -> node00DA0E08[color="#0855F0"]
-    node00DA0E08[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DA0E08 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+        node00730DB8[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00730DB8 | type: 1 | value: 2.000000| { left: 00730D68 | right: 00730DE0 }}"];
+    node00730DB8 -> node00730D68[color="#0855F0"]
+    node00730D68[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00730D68 | type: 1 | value: 1.000000| { left: 00730D40 | right: 00730D90 }}"];
+    node00730D68 -> node00730D40[color="#0855F0"]
+    node00730D40[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00730D40 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+    node00730D68 -> node00730D90[color="#0855F0"]
+    node00730D90[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00730D90 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node00730DB8 -> node00730DE0[color="#0855F0"]
+    node00730DE0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00730DE0 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
 }

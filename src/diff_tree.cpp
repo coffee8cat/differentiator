@@ -57,6 +57,7 @@ node_t* read_node(const char** curr, const char* end, FILE* html_stream)
         return _NUM(num);
     }
 
+    node_t* first_arg = NULL;
     if (**curr != '{')
     {                                       // here check if it is in var list, add if yes, else skip
         *curr = skip_space(*curr);
@@ -66,10 +67,7 @@ node_t* read_node(const char** curr, const char* end, FILE* html_stream)
             return _VAR('x'); // create var node
         }
     }
-
-    //== FUNCTIONS READING =======================================================//
-    node_t* first_arg = NULL;
-    if (**curr == '{')
+    else
     {
         (*curr)++;
         first_arg = read_node(curr, end, html_stream);
@@ -167,7 +165,8 @@ node_t* diff(node_t* node)
     if (node -> type == VAR) { return _NUM(1);}
     if (node -> type == OP)
     {
-        #define DEF_OPER(oper, eval_rule, diff_rule, ...) case oper: return diff_rule;
+        #define DEF_OPER(oper, eval_rule, diff_rule, ...) case oper: { diff_rule }
+
         switch ((int)node -> value)
         {
             #include "diff_rules_DSL.h"
@@ -188,12 +187,13 @@ void optimize(node_t* node, FILE* html_stream)
     while (opt_counter > 0)
     {
         opt_counter = 0;
+        printf("CONST FOLDING START\n");
         opt_counter += const_folding(node);
+        printf("REMOVING NEUTRAL ELEMS START\n");
         opt_counter += remove_neutral_elems(&node);
-
+        printf("DUMP\n");
         tree_dump(node, html_stream, node);
     }
-
 }
 
 size_t const_folding(node_t* node)
@@ -205,10 +205,13 @@ size_t const_folding(node_t* node)
     if (node -> type == OP && !check_vars(node))
     {
         node -> value = eval(node);
-        printf("EVALUATION: [%p] <- %lf", node -> value);
         node -> type  = NUM;
-        node -> left  = NULL; node -> right = NULL;
+
+        tree_dtor(node -> left);  node -> left  = NULL;
+        tree_dtor(node -> right); node -> right = NULL;
         opt_counter++;
+
+        printf("EVALUATION: [%p] <- %lf", node -> value);
     }
     if (node -> left)  { opt_counter += const_folding(node -> left);  }
     if (node -> right) { opt_counter += const_folding(node -> right); }
@@ -228,7 +231,7 @@ size_t remove_neutral_elems(node_t** node)
             case ADD: opt_counter += ADD_optimisation(node); printf("ADD OPTIMISATION\n"); break;
             case SUB: opt_counter += SUB_optimisation(node); printf("SUB OPTIMISATION\n"); break;
             case MUL: opt_counter += MUL_optimisation(node); printf("MUL OPTIMISATION\n"); break;
-            //case POW: opt_counter += POW_optimisation(&node); break;
+            case POW: opt_counter += POW_optimisation(node); printf("POW OPTIMISATION\n"); break;
             default: break;
         }
     }
@@ -239,14 +242,22 @@ size_t remove_neutral_elems(node_t** node)
     return opt_counter;
 }
 
+#define REPLACE_WITH(son)       \
+    node_t* temp = *node;       \
+    *node = (*node) -> son;     \
+                                \
+    temp -> son = NULL;         \
+    tree_dtor(temp);            \
+    opt_counter++              \
+
 size_t ADD_optimisation(node_t** node)
 {
     assert(node);
     assert(*node);
 
     size_t opt_counter = 0;
-    if      (((*node) -> left)  -> type == NUM && ((*node) -> left)  -> value == 0) { *node = (*node) -> right; opt_counter++; }
-    else if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { *node = (*node) -> left;  opt_counter++; }
+    if      (((*node) -> left)  -> type == NUM && ((*node) -> left)  -> value == 0) { REPLACE_WITH(right); }
+    else if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { REPLACE_WITH(left);  }
 
     return opt_counter;
 }
@@ -257,7 +268,7 @@ size_t SUB_optimisation(node_t** node)
     assert(*node);
 
     size_t opt_counter = 0;
-    if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { *node = (*node) -> left;  opt_counter++; }
+    if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { REPLACE_WITH(left); }
 
     return opt_counter;
 }
@@ -270,14 +281,14 @@ size_t MUL_optimisation(node_t** node)
     size_t opt_counter = 0;
     if (((*node) -> left)  -> type == NUM)
     {
-        if      (((*node) -> left) -> value == 0) { *node = (*node) -> left;  opt_counter++; }
-        else if (((*node) -> left) -> value == 1) { *node = (*node) -> right; opt_counter++; }
+        if      (((*node) -> left) -> value == 0) { REPLACE_WITH(left);  }
+        else if (((*node) -> left) -> value == 1) { REPLACE_WITH(right); }
 
     }
     else if (((*node) -> right) -> type == NUM)
     {
-        if      (((*node) -> right) -> value == 0) { *node = (*node) -> right; opt_counter++; }
-        else if (((*node) -> right) -> value == 1) { *node = (*node) -> left;  opt_counter++; }
+        if      (((*node) -> right) -> value == 0) { REPLACE_WITH(right); }
+        else if (((*node) -> right) -> value == 1) { REPLACE_WITH(left);  }
     }
 
     return opt_counter;
@@ -291,22 +302,28 @@ size_t POW_optimisation(node_t** node)
     size_t opt_counter = 0;
     if (((*node) -> left)  -> type == NUM)
     {
-        if      (((*node) -> left) -> value == 0) { *node = (*node) -> left; opt_counter++; }
-        else if (((*node) -> left) -> value == 1) { *node = (*node) -> left; opt_counter++; }
-
+        if (((*node) -> left) -> value == 0 || ((*node) -> left) -> value == 1) { REPLACE_WITH(left); }
     }
     else if (((*node) -> right) -> type == NUM)
     {
-        if      (((*node) -> right) -> value == 0) { *node = _NUM(1);         opt_counter++; }
-        else if (((*node) -> right) -> value == 1) { *node = (*node) -> left; opt_counter++; }
+        if      (((*node) -> right) -> value == 0)
+        {
+            ((*node) -> right) -> type  = NUM;
+            ((*node) -> right) -> value = 1;
+            REPLACE_WITH(right);
+        }
+        else if (((*node) -> right) -> value == 1) { REPLACE_WITH(left); }
     }
 
     return opt_counter;
 }
 
+#undef REPLACE_WITH
+
 node_t* copy_tree(node_t* root)
 {
-    assert(root);
+    if (!root) { return NULL; }
+
     node_t* node = new_node(root -> type, root -> value, NULL, NULL);
     if (root -> left)  { node -> left  = copy_tree(root -> left);  }
     if (root -> right) { node -> right = copy_tree(root -> right); }
