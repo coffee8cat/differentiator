@@ -13,7 +13,7 @@
 #define _LOG(b)    new_node(OP, LOG, NULL, b)
 #define _POW(a, b) new_node(OP, POW, a,    b)
 
-#define dL  diff (node -> left)
-#define dR  diff (node -> right)
+#define dL  diff (node -> left,  tex_stream, roots_stack, subs_stack)
+#define dR  diff (node -> right, tex_stream, roots_stack, subs_stack)
 #define cL  copy_tree (node -> left)
 #define cR  copy_tree (node -> right)

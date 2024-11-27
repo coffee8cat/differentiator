@@ -8,6 +8,8 @@
 #include <math.h>
 #include <ctype.h>
 
+#include "my_stack.h"
+
 const size_t default_str_size = 32;
 
 #define DEF_OPER(oper, ...) oper,
@@ -41,11 +43,9 @@ enum operations read_func_name(const char** curr);
 const char* skip_space(const char* curr);
 const char* skip_until(const char* curr, char ch);
 
-void write_node(node_t* node);
-
 //== CALCULATIONS ===========================================================================//
 double eval (node_t* node);
-node_t* diff(node_t* node);
+node_t* diff(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
 
 //== OPTIMISATION ===========================================================================//
 void optimize(node_t* node, FILE* html_stream);

@@ -2,9 +2,13 @@ digraph
 {
     rankdir=TP
 
-        node00D10D68[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00D10D68 | type: 1 | value: 7.000000| { left: 00D10D40 | right: 00D10D90 }}"];
-    node00D10D68 -> node00D10D40[color="#0855F0"]
-    node00D10D40[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10D40 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
-    node00D10D68 -> node00D10D90[color="#0855F0"]
-    node00D10D90[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10D90 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+        node00DF0E88[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00DF0E88 | type: 1 | value: 7.000000| { left: 00DF0E38 | right: 00DF0EB0 }}"];
+    node00DF0E88 -> node00DF0E38[color="#0855F0"]
+    node00DF0E38[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0E38 | type: 1 | value: 3.000000| { left: 00DF0E10 | right: 00DF0E60 }}"];
+    node00DF0E38 -> node00DF0E10[color="#0855F0"]
+    node00DF0E10[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0E10 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF0E38 -> node00DF0E60[color="#0855F0"]
+    node00DF0E60[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0E60 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF0E88 -> node00DF0EB0[color="#0855F0"]
+    node00DF0EB0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0EB0 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
 }

@@ -1,17 +1,11 @@
 #include "diff_tree.h"
 #include "tree_dump.h"
+#include "tex_dump.h"
 
 const double Global_x = 2.0;
 
 #define _NUM(n) new_node(NUM, n, NULL, NULL)
 #define _VAR(x) new_node(VAR, x, NULL, NULL)
-
-#define DEF_OPER(oper, eval, diff, dump_name, ...) dump_name,
-const char* oper_dump_names[] {
-    #include "diff_rules_DSL.h"
-    "UNKNOWN"
-};
-#undef DEF_OPER
 
 node_t* new_node(node_type type, double value, node_t* left, node_t* right)
 {
@@ -142,22 +136,6 @@ const char* skip_until(const char* curr, char ch)
     return curr;
 }
 
-void write_node(node_t* node)
-{
-    if (!node) { return; }
-
-    if (node -> type == NUM) { printf(" {%lf} ", node -> value); return; }
-    if (node -> type == VAR) { printf(" {%c} ", (char)node -> value);  return; }
-    if (node -> type == OP)
-    {
-        printf(" {");
-        write_node (node -> left);
-        printf("%s", oper_dump_names[(size_t)node -> value]);
-        write_node (node -> right);
-        printf("} ");
-    }
-}
-
 double eval(node_t* node)
 {
     assert(node);
@@ -179,7 +157,7 @@ double eval(node_t* node)
     return -1;
 }
 
-node_t* diff(node_t* node)
+node_t* diff(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
     assert(node);
 
@@ -188,7 +166,21 @@ node_t* diff(node_t* node)
     if (node -> type == VAR) { return _NUM(1);}
     if (node -> type == OP)
     {
-        #define DEF_OPER(oper, eval_rule, diff_rule, ...) case oper: { diff_rule }
+        #define DEF_OPER(oper, eval_rule, diff_rule, ...) case oper:            \
+        {                                                                       \
+            node_t* node_diff = NULL;                                           \
+            diff_rule                                                           \
+                                                                                \
+            fprintf(tex_stream, "$\\frac{d}{dx}");                                          \
+            char sub = 'a';                                                                 \
+            sub = write_node (node, tex_stream, roots_stack, subs_stack, sub, 1);           \
+            fprintf(tex_stream, " = " );                                                    \
+            sub = write_node (node_diff, tex_stream, roots_stack, subs_stack, sub, 1);      \
+            write_substitutions(tex_stream, roots_stack, subs_stack);                       \
+            fprintf(tex_stream, "$\n\n");                                                   \
+                                                                                            \
+            return node_diff;                                                               \
+        }                                                                                   \
 
         switch ((int)node -> value)
         {

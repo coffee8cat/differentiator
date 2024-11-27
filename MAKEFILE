@@ -48,7 +48,7 @@ clean:
 	rm $(OBJ_DIR)
 
 create_obj:
-	$(CC) $(SOURCES) -c -I$(HEADERS_DIR) -I$(DSL) -D$(DEBUG) $(CFLAGS)
+	$(CC) $(SOURCES) $(LIB_SRC) -c -I$(HEADERS_DIR) -I$(LIBS) -I$(DSL) -D$(DEBUG) $(CFLAGS)
 	mv *.o $(OBJ_DIR)
 
 linkage:

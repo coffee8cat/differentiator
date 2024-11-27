@@ -2,23 +2,39 @@ digraph
 {
     rankdir=TP
 
-        node00D10FE0[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00D10FE0 | type: 1 | value: 2.000000| { left: 00D10FB8 | right: 00D10E28 }}"];
-    node00D10FE0 -> node00D10FB8[color="#0855F0"]
-    node00D10FB8[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10FB8 | type: 1 | value: 0.000000| { left: 00D10F40 | right: 00D10EF0 }}"];
-    node00D10FB8 -> node00D10F40[color="#0855F0"]
-    node00D10F40[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10F40 | type: 1 | value: 6.000000| { left: 00000000 | right: 00D10F18 }}"];
-    node00D10F40 -> node00D10F18[color="#0855F0"]
-    node00D10F18[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10F18 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
-    node00D10FB8 -> node00D10EF0[color="#0855F0"]
-    node00D10EF0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10EF0 | type: 1 | value: 3.000000| { left: 00D10E78 | right: 00D10E50 }}"];
-    node00D10EF0 -> node00D10E78[color="#0855F0"]
-    node00D10E78[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10E78 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
-    node00D10EF0 -> node00D10E50[color="#0855F0"]
-    node00D10E50[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10E50 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
-    node00D10FE0 -> node00D10E28[color="#0855F0"]
-    node00D10E28[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10E28 | type: 1 | value: 7.000000| { left: 00D10E00 | right: 00D10DD8 }}"];
-    node00D10E28 -> node00D10E00[color="#0855F0"]
-    node00D10E00[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10E00 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
-    node00D10E28 -> node00D10DD8[color="#0855F0"]
-    node00D10DD8[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00D10DD8 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+        node00DF1290[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00DF1290 | type: 1 | value: 2.000000| { left: 00DF1498 | right: 00DF0F98 }}"];
+    node00DF1290 -> node00DF1498[color="#0855F0"]
+    node00DF1498[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF1498 | type: 1 | value: 0.000000| { left: 00DF1448 | right: 00DF11F0 }}"];
+    node00DF1498 -> node00DF1448[color="#0855F0"]
+    node00DF1448[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF1448 | type: 1 | value: 6.000000| { left: 00000000 | right: 00DF11A0 }}"];
+    node00DF1448 -> node00DF11A0[color="#0855F0"]
+    node00DF11A0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF11A0 | type: 1 | value: 3.000000| { left: 00DF13F8 | right: 00DF1218 }}"];
+    node00DF11A0 -> node00DF13F8[color="#0855F0"]
+    node00DF13F8[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF13F8 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF11A0 -> node00DF1218[color="#0855F0"]
+    node00DF1218[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF1218 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF1498 -> node00DF11F0[color="#0855F0"]
+    node00DF11F0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF11F0 | type: 1 | value: 3.000000| { left: 00DF1128 | right: 00DF0FC0 }}"];
+    node00DF11F0 -> node00DF1128[color="#0855F0"]
+    node00DF1128[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF1128 | type: 1 | value: 2.000000| { left: 00DF1178 | right: 00DF1038 }}"];
+    node00DF1128 -> node00DF1178[color="#0855F0"]
+    node00DF1178[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF1178 | type: 0 | value: 0.250000| { left: 00000000 | right: 00000000 }}"];
+    node00DF1128 -> node00DF1038[color="#0855F0"]
+    node00DF1038[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF1038 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF11F0 -> node00DF0FC0[color="#0855F0"]
+    node00DF0FC0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0FC0 | type: 1 | value: 3.000000| { left: 00DF0FE8 | right: 00DF1010 }}"];
+    node00DF0FC0 -> node00DF0FE8[color="#0855F0"]
+    node00DF0FE8[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0FE8 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF0FC0 -> node00DF1010[color="#0855F0"]
+    node00DF1010[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF1010 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF1290 -> node00DF0F98[color="#0855F0"]
+    node00DF0F98[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0F98 | type: 1 | value: 7.000000| { left: 00DF0F20 | right: 00DF0EF8 }}"];
+    node00DF0F98 -> node00DF0F20[color="#0855F0"]
+    node00DF0F20[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0F20 | type: 1 | value: 3.000000| { left: 00DF0F48 | right: 00DF0F70 }}"];
+    node00DF0F20 -> node00DF0F48[color="#0855F0"]
+    node00DF0F48[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0F48 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF0F20 -> node00DF0F70[color="#0855F0"]
+    node00DF0F70[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0F70 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
+    node00DF0F98 -> node00DF0EF8[color="#0855F0"]
+    node00DF0EF8[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0EF8 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
 }
