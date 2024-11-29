@@ -73,22 +73,30 @@ int make_dot_file(node_t* root, FILE* fp, node_t* curr)
     return 0;
 }
 
+#define DEF_OPER(oper, ...) #oper,
+const char* operations[] {
+    #include "diff_rules_DSL.h"
+    "UNKNOWN"
+};
+#undef DEF_OPER
+
 int write_node_info(node_t* node, FILE* fp, node_t* curr)
 {
     assert(fp);
 
     if (!node) { return 1; }
 
-    if (node == curr)
-    {
-        fprintf(fp, "    node%p[shape=record,style=\"rounded,filled\",fillcolor=\"#BF62FC\",label=\"{ ptr: %p | type: %d | value: %lf| { left: %p | right: %p }}\"];\n",
-                node, node, node -> type, node -> value, node -> left, node -> right);
-    }
-    else
-    {
-        fprintf(fp, "    node%p[shape=record,style=\"rounded,filled\",fillcolor=\"#378217\",label=\"{ ptr: %p | type: %d | value: %lf| { left: %p | right: %p }}\"];\n",
-                node, node, node -> type, node -> value, node -> left, node -> right);
-    }
+    const char* color = NULL;
+    char* value = (char*)calloc(16, sizeof(char));
+
+    if (node -> type == OP)  { color = "#C51BEC"; strcpy(value, operations[(size_t)node -> value]);}
+    if (node -> type == NUM) { color = "#1BECC5"; sprintf(value, "%lf", node -> value);}
+    if (node -> type == VAR) { color = "#ECC51B"; sprintf(value, "x");}
+    if (node == curr)        { color = "#BF62FC"; }
+
+
+    fprintf(fp, "    node%p[shape=record,style=\"rounded,filled\",fillcolor=\"%s\",label=\"{ ptr: %p | type: %d | value: %s| { left: %p | right: %p }}\"];\n",
+            node, color, node, node -> type, value, node -> left, node -> right);
 
     if (node -> left)
     {
@@ -100,6 +108,7 @@ int write_node_info(node_t* node, FILE* fp, node_t* curr)
         fprintf(fp, "    node%p -> node%p[color=\"#0855F0\"]\n", node, node -> right);
         write_node_info(node -> right, fp, curr);
     }
+    free(value);
 
     return 0;
 }

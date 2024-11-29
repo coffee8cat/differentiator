@@ -2,13 +2,13 @@ digraph
 {
     rankdir=TP
 
-        node00DF0E88[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00DF0E88 | type: 1 | value: 7.000000| { left: 00DF0E38 | right: 00DF0EB0 }}"];
-    node00DF0E88 -> node00DF0E38[color="#0855F0"]
-    node00DF0E38[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0E38 | type: 1 | value: 3.000000| { left: 00DF0E10 | right: 00DF0E60 }}"];
-    node00DF0E38 -> node00DF0E10[color="#0855F0"]
-    node00DF0E10[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0E10 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
-    node00DF0E38 -> node00DF0E60[color="#0855F0"]
-    node00DF0E60[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0E60 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
-    node00DF0E88 -> node00DF0EB0[color="#0855F0"]
-    node00DF0EB0[shape=record,style="rounded,filled",fillcolor="#378217",label="{ ptr: 00DF0EB0 | type: 2 | value: 120.000000| { left: 00000000 | right: 00000000 }}"];
+        node00740E88[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00740E88 | type: 1 | value: POW| { left: 00740E38 | right: 00740EB0 }}"];
+    node00740E88 -> node00740E38[color="#0855F0"]
+    node00740E38[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00740E38 | type: 1 | value: DIV| { left: 00740E10 | right: 00740E60 }}"];
+    node00740E38 -> node00740E10[color="#0855F0"]
+    node00740E10[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00740E10 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00740E38 -> node00740E60[color="#0855F0"]
+    node00740E60[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00740E60 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
+    node00740E88 -> node00740EB0[color="#0855F0"]
+    node00740EB0[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00740EB0 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
 }
