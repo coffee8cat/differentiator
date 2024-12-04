@@ -2,17 +2,19 @@ digraph
 {
     rankdir=TP
 
-        node0070ED30[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 0070ED30 | type: 1 | value: MUL| { left: 0070ECE0 | right: 0070ED08 }}"];
-    node0070ED30 -> node0070ECE0[color="#0855F0"]
-    node0070ECE0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 0070ECE0 | type: 1 | value: POW| { left: 0070EC90 | right: 0070ECB8 }}"];
-    node0070ECE0 -> node0070EC90[color="#0855F0"]
-    node0070EC90[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 0070EC90 | type: 1 | value: DIV| { left: 0070EC40 | right: 0070EC68 }}"];
-    node0070EC90 -> node0070EC40[color="#0855F0"]
-    node0070EC40[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 0070EC40 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
-    node0070EC90 -> node0070EC68[color="#0855F0"]
-    node0070EC68[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 0070EC68 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
-    node0070ECE0 -> node0070ECB8[color="#0855F0"]
-    node0070ECB8[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 0070ECB8 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
-    node0070ED30 -> node0070ED08[color="#0855F0"]
-    node0070ED08[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 0070ED08 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+        node006DED58[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 006DED58 | type: 1 | value: MUL| { left: 006DED08 | right: 006DED30 }}"];
+    node006DED58 -> node006DED08[color="#0855F0"]
+    node006DED08[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 006DED08 | type: 1 | value: POW| { left: 006DEC90 | right: 006DECE0 }}"];
+    node006DED08 -> node006DEC90[color="#0855F0"]
+    node006DEC90[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 006DEC90 | type: 1 | value: DIV| { left: 006DEC40 | right: 006DEC68 }}"];
+    node006DEC90 -> node006DEC40[color="#0855F0"]
+    node006DEC40[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 006DEC40 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node006DEC90 -> node006DEC68[color="#0855F0"]
+    node006DEC68[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 006DEC68 | type: 0 | value: 4.000000| { left: 00000000 | right: 00000000 }}"];
+    node006DED08 -> node006DECE0[color="#0855F0"]
+    node006DECE0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 006DECE0 | type: 1 | value: LN| { left: 00000000 | right: 006DECB8 }}"];
+    node006DECE0 -> node006DECB8[color="#0855F0"]
+    node006DECB8[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 006DECB8 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node006DED58 -> node006DED30[color="#0855F0"]
+    node006DED30[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 006DED30 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
 }

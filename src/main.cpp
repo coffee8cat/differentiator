@@ -30,7 +30,7 @@ int main()
     stack_init(&subs_stack,  16, sizeof(node_t*));
 
 
-    const char* buff = "(((x)/(4))^(x))*x$";
+    const char* buff = "(((x)/(4))^(\\ln(x)))*x$";
     lexeme_t* cmds = string_to_lexems(buff);
     size_t i = 0;
     while (i < 50)

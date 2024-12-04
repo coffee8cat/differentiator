@@ -103,16 +103,22 @@ node_t* GetP(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
         case OP_L:
         {
             if ((char)lexeme_array[*curr].value == '(')
-                {
-                    (*curr)++;
-                    GRAMMAR_DEBUG_PRINT();
-                    node_t* node = GetE(lexeme_array, curr, html_stream);
-                    GRAMMAR_DEBUG_PRINT();
-                    if ((char)lexeme_array[*curr].value != ')') { assert(0); }
-                    (*curr)++;
-                    GRAMMAR_DEBUG_PRINT();
-                    return node;
-                }
+            {
+                (*curr)++;
+                GRAMMAR_DEBUG_PRINT();
+                node_t* node = GetE(lexeme_array, curr, html_stream);
+                GRAMMAR_DEBUG_PRINT();
+                if ((char)lexeme_array[*curr].value != ')') { assert(0); }
+                (*curr)++;
+                GRAMMAR_DEBUG_PRINT();
+                return node;
+            }
+            else
+            {
+                operations operation = (operations)lexeme_array[*curr].value;
+                (*curr)++;
+                return new_node(OP, operation, NULL, GetE(lexeme_array, curr, html_stream));
+            }
         }
         case ID:    { return _VAR((char)lexeme_array[(*curr)++].value); }
         case NUM_L: { return _NUM(lexeme_array[(*curr)++].value);       }
