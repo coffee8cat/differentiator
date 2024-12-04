@@ -27,20 +27,6 @@ lexeme_t* string_to_lexems(const char* s)
     while (curr < end)
     {
         printf("curr: %c(%d), num = %d\n", *curr, *curr, lexeme_num);
-        if (isalpha(*curr) || *curr =='+' || *curr =='-' || *curr =='/' || *curr =='*' || *curr =='^' || *curr == '\\')
-        {
-            if (get_OP(lexeme_array, lexeme_num, &curr) != UNKNOWN)
-            {
-                lexeme_num++;
-                continue;
-            }
-            else
-            {
-                add_label(lexeme_array, lexeme_num, &curr);
-                lexeme_num++;
-                continue;
-            }
-        }
         if (*curr == '(')
         {
             lexeme_array[lexeme_num].type = OP_L;
@@ -74,6 +60,20 @@ lexeme_t* string_to_lexems(const char* s)
             lexeme_num++;
             continue;
         }
+        if (get_OP(lexeme_array, lexeme_num, &curr) != UNKNOWN)
+        {
+            lexeme_num++;
+            continue;
+        }
+        else
+        {
+            add_label(lexeme_array, lexeme_num, &curr);
+            lexeme_num++;
+            continue;
+        }
+
+        fprintf(stderr, "LEXICAL ERROR: No such lexical rule");
+        return NULL;
     }
 
     return lexeme_array;

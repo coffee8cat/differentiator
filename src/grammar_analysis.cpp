@@ -1,5 +1,5 @@
-#include "grammar_reader.h"
-
+#include "grammar_analysis.h"
+#include "lexical_analysis.h"
 
 #define _ADD(a, b) new_node(OP, ADD, a,    b)
 #define _SUB(a, b) new_node(OP, SUB, a,    b)

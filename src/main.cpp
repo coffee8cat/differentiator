@@ -1,7 +1,7 @@
 #include "diff_tree.h"
 #include "tree_dump.h"
 #include "tex_dump.h"
-#include "grammar_reader.h"
+#include "grammar_analysis.h"
 #include "lexical_analysis.h"
 
 int main()
