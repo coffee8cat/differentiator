@@ -61,10 +61,4 @@ size_t POW_optimisation(node_t** node);
 node_t* copy_tree(node_t* root);
 bool check_vars(node_t* node);
 
-node_t* GetG();
-node_t* GetE();
-node_t* GetT();
-node_t* GetP();
-node_t* GetN();
-
 #endif

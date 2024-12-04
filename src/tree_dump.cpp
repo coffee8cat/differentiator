@@ -3,7 +3,7 @@
 
 FILE* prepare_to_dump()
 {
-    system("make clean_dump\n");
+    //system("make clean_dump\n");
     FILE* fp = fopen("list_dump.html", "w");
     if (fp == NULL)
     {

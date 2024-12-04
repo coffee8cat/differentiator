@@ -1,6 +1,8 @@
 #include "diff_tree.h"
 #include "tree_dump.h"
 #include "tex_dump.h"
+#include "grammar_reader.h"
+#include "lexical_analysis.h"
 
 int main()
 {
@@ -12,11 +14,14 @@ int main()
 
     FILE* html_stream = prepare_to_dump();
     if (html_stream == NULL)
+    {
+        fprintf(stderr, "!!! HTML STREAM ERROR !!!\n");
         return -1;
+    }
 
-    FILE* tex_stream = prepare_TEX_stream();
-    if (html_stream == NULL)
-        return -1;
+    //FILE* tex_stream = prepare_TEX_stream();
+    //if (html_stream == NULL)
+    //    return -1;
 
     stack_t roots_stack = {};
     stack_t subs_stack  = {};
@@ -24,11 +29,23 @@ int main()
     stack_init(&roots_stack, 16, sizeof(node_t*));
     stack_init(&subs_stack,  16, sizeof(node_t*));
 
-    //const char* buff = "{12} + { {ln{5}} * {x}}";
-    const char* buff = "{{x} / {4}} ^ {x}";
-    node_t* node1 = read_node(&buff, buff + strlen(buff), html_stream);
-    tree_dump(node1, html_stream, node1);
 
+    const char* buff = "(((x)/(4))^(\\ln(x)))*x$";
+    lexeme_t* cmds = string_to_lexems(buff);
+    size_t i = 0;
+    while (i < 50)
+    {
+        printf("%4d: %d\nvalue = %lg\nlabel = %s\n", i, cmds[i].type, cmds[i].value, cmds[i].label);
+        i++;
+    }
+    //const char* buff = "{12} + { {ln{5}} * {x}}";
+    //const char* buff = "{{{x} / {4}} ^ {x}} * {\\ln{\\sin{{5}*{x}}}}$";
+
+    /*printf("Getting node...");
+    node_t* node1 = GetG();
+    printf("node1: %p\n", node1);*/
+    //node_t* node1 = read_node(&buff, buff + strlen(buff), html_stream);
+/*
     node_t* diff_root1 = diff(node1, tex_stream, &roots_stack, &subs_stack);
     printf("%p\n\n", diff_root1);
     tree_dump(diff_root1, html_stream, diff_root1);
@@ -49,6 +66,9 @@ int main()
     write_substitutions(tex_stream, &roots_stack, &subs_stack);
 
     close_TEX_stream(tex_stream);
+*/
+
+
     /*node_t* root  = new_node(OP, DIV, NULL, NULL);
     root -> left  = new_node(OP, POW, new_node(VAR, 'x', NULL, NULL), new_node(NUM, 2, NULL, NULL));
     root -> right = new_node(NUM, 50, NULL, NULL);

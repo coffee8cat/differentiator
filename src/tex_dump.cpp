@@ -76,11 +76,19 @@ void write_node(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* s
         }
         else
         {
-            fprintf(tex_stream, "(");
-            WRITE_NODE (node -> left,  tex_stream, roots_stack, subs_stack, layer+1);
-            fprintf(tex_stream, ")%s(", oper_dump_names[(size_t)node -> value]);
-            WRITE_NODE (node -> right, tex_stream, roots_stack, subs_stack, layer+1);
-            fprintf(tex_stream, ")");
+            if (node -> left)
+            {
+                fprintf(tex_stream, "{(");
+                WRITE_NODE (node -> left,  tex_stream, roots_stack, subs_stack, layer+1);
+                fprintf(tex_stream, ")}");
+            }
+            fprintf(tex_stream, "%s", oper_dump_names[(size_t)node -> value]);
+            if (node -> right)
+            {
+                fprintf(tex_stream, "{(");
+                WRITE_NODE (node -> right,  tex_stream, roots_stack, subs_stack, layer+1);
+                fprintf(tex_stream, ")}");
+            }
         }
     }
 }
