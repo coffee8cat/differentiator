@@ -1,7 +1,7 @@
 #include "diff_tree.h"
 #include "tree_dump.h"
 #include "tex_dump.h"
-#include "grammar_analysis.h"
+#include "syntax_analysis.h"
 #include "lexical_analysis.h"
 
 int main()
@@ -30,7 +30,7 @@ int main()
     stack_init(&subs_stack,  16, sizeof(node_t*));
 
 
-    const char* buff = "(((x)/(4))^(\\ln(x)))*x$";
+    const char* buff = "(((x)/(4))^(x))*x$";
     lexeme_t* cmds = string_to_lexems(buff);
     size_t i = 0;
     while (i < 50)
@@ -41,9 +41,13 @@ int main()
     //const char* buff = "{12} + { {ln{5}} * {x}}";
     //const char* buff = "{{{x} / {4}} ^ {x}} * {\\ln{\\sin{{5}*{x}}}}$";
 
-    /*printf("Getting node...");
-    node_t* node1 = GetG();
-    printf("node1: %p\n", node1);*/
+    printf("Getting node...");
+    size_t curr = 0;
+    node_t* node1 = GetG(cmds, &curr, html_stream);
+    printf("node1: %p\n", node1);
+    tree_dump(node1, html_stream, node1);
+
+
     //node_t* node1 = read_node(&buff, buff + strlen(buff), html_stream);
 /*
     node_t* diff_root1 = diff(node1, tex_stream, &roots_stack, &subs_stack);
@@ -65,7 +69,6 @@ int main()
     fprintf(tex_stream, "\\]\n");
     write_substitutions(tex_stream, &roots_stack, &subs_stack);
 
-    close_TEX_stream(tex_stream);
 */
 
 
@@ -89,5 +92,7 @@ int main()
     tree_dtor(root);
     tree_dtor(diff_root);*/
 
+    //close_TEX_stream(tex_stream);
+    fclose(html_stream);
     return 0;
 }

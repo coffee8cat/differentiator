@@ -32,7 +32,7 @@ DEF_OPER(COS,
     node_diff = _MUL (_SIN (_MUL ( _NUM(-1), cR)), dR);,
     "\\cos")
 
-DEF_OPER(LOG,
+DEF_OPER(LN,
     log(RIGHT),
     node_diff = _DIV (dR, cR);,
     "\\ln")

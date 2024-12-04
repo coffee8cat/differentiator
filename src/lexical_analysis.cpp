@@ -67,9 +67,12 @@ lexeme_t* string_to_lexems(const char* s)
         }
         else
         {
-            add_label(lexeme_array, lexeme_num, &curr);
-            lexeme_num++;
-            continue;
+            if (isalpha(*curr))
+            {
+                add_label(lexeme_array, lexeme_num, &curr);
+                lexeme_num++;
+                continue;
+            }
         }
 
         fprintf(stderr, "LEXICAL ERROR: No such lexical rule");

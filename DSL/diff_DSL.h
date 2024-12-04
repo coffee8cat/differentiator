@@ -10,7 +10,7 @@
 #define _DIV(a, b) new_node(OP, DIV, a,    b)
 #define _COS(b)    new_node(OP, COS, NULL, b)
 #define _SIN(b)    new_node(OP, SIN, NULL, b)
-#define _LOG(b)    new_node(OP, LOG, NULL, b)
+#define _LOG(b)    new_node(OP, LN, NULL, b)
 #define _POW(a, b) new_node(OP, POW, a,    b)
 
 #define dL  diff (node -> left,  tex_stream, roots_stack, subs_stack)
