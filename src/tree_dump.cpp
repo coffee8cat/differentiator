@@ -91,7 +91,7 @@ int write_node_info(node_t* node, FILE* fp, node_t* curr)
 
     if (node -> type == OP)  { color = "#C51BEC"; strcpy(value, operations[(size_t)node -> value]);}
     if (node -> type == NUM) { color = "#1BECC5"; sprintf(value, "%lf", node -> value);}
-    if (node -> type == VAR) { color = "#ECC51B"; sprintf(value, "x");}
+    if (node -> type == VAR) { color = "#ECC51B"; sprintf(value, "%lf", node -> value);}
     if (node == curr)        { color = "#BF62FC"; }
 
 

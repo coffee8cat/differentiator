@@ -113,34 +113,36 @@ stack_err stack_dump(stack_t* stack, const char* call_file, size_t call_line, co
 stack_err stack_dump_errors(stack_t* stack);
 
 uint64_t stack_verify(stack_t* stack);
-static uint64_t calc_hash(char* start, char* end);
+uint64_t calc_hash(char* start, char* end);
 
-static stack_err stack_realloc(stack_t* stack, stack_realloc_state state);
+stack_err stack_realloc(stack_t* stack, stack_realloc_state state);
 
 stack_err stack_push(stack_t* stack, void* elem);
 stack_err stack_pop (stack_t* stack, void* temp);
 
-static int dump_char(size_t i, stack_t* stack)
-{
-    char temp = *((char*)stack -> data + i * stack -> elem_size);
-    return printf("%4d:[%c](%d)\n", i, temp, temp);
-}
-static int dump_int(size_t i, stack_t* stack)
-{
-    int temp = 0;
-    memcpy(&temp, (char*)stack -> data + i * stack -> elem_size, stack -> elem_size);
-    return printf("%4d:[%d]\n", i, temp);
-}
+
 static int dump_double(size_t i, stack_t* stack)
 {
     double temp = 0;
     memcpy(&temp, (char*)stack -> data + i * stack -> elem_size, stack -> elem_size);
     return printf("%4d:[%p]\n", i, temp);
 }
-static int dump_uint64_t(size_t i, stack_t* stack)
+/*
+int dump_uint64_t(size_t i, stack_t* stack)
 {
     uint64_t temp = 0;
     memcpy(&temp, (char*)stack -> data + i * stack -> elem_size, stack -> elem_size);
     return printf("%4d:[%llX]\n", i, temp);
 }
+int dump_char(size_t i, stack_t* stack)
+{
+    char temp = *((char*)stack -> data + i * stack -> elem_size);
+    return printf("%4d:[%c](%d)\n", i, temp, temp);
+}
+int dump_int(size_t i, stack_t* stack)
+{
+    int temp = 0;
+    memcpy(&temp, (char*)stack -> data + i * stack -> elem_size, stack -> elem_size);
+    return printf("%4d:[%d]\n", i, temp);
+}*/
 #endif //_STACK_HEADER_H__

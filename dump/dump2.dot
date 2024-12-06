@@ -1,0 +1,234 @@
+digraph
+{
+    rankdir=TP
+
+        node00138F90[shape=record,style="rounded,filled",fillcolor="#BF62FC",label="{ ptr: 00138F90 | type: 1 | value: DIV| { left: 001390F8 | right: 00138878 }}"];
+    node00138F90 -> node001390F8[color="#0855F0"]
+    node001390F8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001390F8 | type: 1 | value: SUB| { left: 001393C8 | right: 00139710 }}"];
+    node001390F8 -> node001393C8[color="#0855F0"]
+    node001393C8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001393C8 | type: 1 | value: MUL| { left: 00139350 | right: 00139508 }}"];
+    node001393C8 -> node00139350[color="#0855F0"]
+    node00139350[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139350 | type: 1 | value: ADD| { left: 001390D0 | right: 00139238 }}"];
+    node00139350 -> node001390D0[color="#0855F0"]
+    node001390D0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001390D0 | type: 1 | value: SUB| { left: 00139328 | right: 001392B0 }}"];
+    node001390D0 -> node00139328[color="#0855F0"]
+    node00139328[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139328 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node001390D0 -> node001392B0[color="#0855F0"]
+    node001392B0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001392B0 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139350 -> node00139238[color="#0855F0"]
+    node00139238[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139238 | type: 1 | value: MUL| { left: 00138FE0 | right: 001390A8 }}"];
+    node00139238 -> node00138FE0[color="#0855F0"]
+    node00138FE0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138FE0 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139238 -> node001390A8[color="#0855F0"]
+    node001390A8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001390A8 | type: 1 | value: MUL| { left: 00139058 | right: 00139300 }}"];
+    node001390A8 -> node00139058[color="#0855F0"]
+    node00139058[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139058 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node001390A8 -> node00139300[color="#0855F0"]
+    node00139300[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139300 | type: 1 | value: POW| { left: 00139120 | right: 00139170 }}"];
+    node00139300 -> node00139120[color="#0855F0"]
+    node00139120[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00139120 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00139300 -> node00139170[color="#0855F0"]
+    node00139170[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139170 | type: 1 | value: SUB| { left: 00138FB8 | right: 00139030 }}"];
+    node00139170 -> node00138FB8[color="#0855F0"]
+    node00138FB8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138FB8 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139170 -> node00139030[color="#0855F0"]
+    node00139030[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139030 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node001393C8 -> node00139508[color="#0855F0"]
+    node00139508[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139508 | type: 1 | value: MUL| { left: 00139530 | right: 00139008 }}"];
+    node00139508 -> node00139530[color="#0855F0"]
+    node00139530[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139530 | type: 1 | value: MUL| { left: 00139468 | right: 00139260 }}"];
+    node00139530 -> node00139468[color="#0855F0"]
+    node00139468[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139468 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139530 -> node00139260[color="#0855F0"]
+    node00139260[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139260 | type: 1 | value: POW| { left: 001392D8 | right: 001391E8 }}"];
+    node00139260 -> node001392D8[color="#0855F0"]
+    node001392D8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001392D8 | type: 1 | value: SUB| { left: 001391C0 | right: 00139210 }}"];
+    node001392D8 -> node001391C0[color="#0855F0"]
+    node001391C0[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 001391C0 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node001392D8 -> node00139210[color="#0855F0"]
+    node00139210[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139210 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139260 -> node001391E8[color="#0855F0"]
+    node001391E8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001391E8 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139508 -> node00139008[color="#0855F0"]
+    node00139008[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139008 | type: 1 | value: POW| { left: 00139288 | right: 00139080 }}"];
+    node00139008 -> node00139288[color="#0855F0"]
+    node00139288[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139288 | type: 1 | value: SUB| { left: 00139418 | right: 00138F68 }}"];
+    node00139288 -> node00139418[color="#0855F0"]
+    node00139418[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00139418 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00139288 -> node00138F68[color="#0855F0"]
+    node00138F68[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138F68 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139008 -> node00139080[color="#0855F0"]
+    node00139080[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139080 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node001390F8 -> node00139710[color="#0855F0"]
+    node00139710[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139710 | type: 1 | value: MUL| { left: 00139620 | right: 001395F8 }}"];
+    node00139710 -> node00139620[color="#0855F0"]
+    node00139620[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139620 | type: 1 | value: ADD| { left: 00139648 | right: 001394E0 }}"];
+    node00139620 -> node00139648[color="#0855F0"]
+    node00139648[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139648 | type: 1 | value: SUB| { left: 00139490 | right: 00139580 }}"];
+    node00139648 -> node00139490[color="#0855F0"]
+    node00139490[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139490 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139648 -> node00139580[color="#0855F0"]
+    node00139580[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00139580 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00139620 -> node001394E0[color="#0855F0"]
+    node001394E0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001394E0 | type: 1 | value: POW| { left: 00139670 | right: 001396E8 }}"];
+    node001394E0 -> node00139670[color="#0855F0"]
+    node00139670[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00139670 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node001394E0 -> node001396E8[color="#0855F0"]
+    node001396E8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001396E8 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139710 -> node001395F8[color="#0855F0"]
+    node001395F8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001395F8 | type: 1 | value: ADD| { left: 001394B8 | right: 00138B98 }}"];
+    node001395F8 -> node001394B8[color="#0855F0"]
+    node001394B8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001394B8 | type: 1 | value: MUL| { left: 00139558 | right: 00138BC0 }}"];
+    node001394B8 -> node00139558[color="#0855F0"]
+    node00139558[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00139558 | type: 1 | value: ADD| { left: 001396C0 | right: 00138F08 }}"];
+    node00139558 -> node001396C0[color="#0855F0"]
+    node001396C0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001396C0 | type: 1 | value: MUL| { left: 001395A8 | right: 00138C60 }}"];
+    node001396C0 -> node001395A8[color="#0855F0"]
+    node001395A8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001395A8 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node001396C0 -> node00138C60[color="#0855F0"]
+    node00138C60[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138C60 | type: 1 | value: POW| { left: 00138D78 | right: 001395D0 }}"];
+    node00138C60 -> node00138D78[color="#0855F0"]
+    node00138D78[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138D78 | type: 1 | value: SUB| { left: 00138DA0 | right: 00139698 }}"];
+    node00138D78 -> node00138DA0[color="#0855F0"]
+    node00138DA0[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00138DA0 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00138D78 -> node00139698[color="#0855F0"]
+    node00139698[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00139698 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138C60 -> node001395D0[color="#0855F0"]
+    node001395D0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001395D0 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00139558 -> node00138F08[color="#0855F0"]
+    node00138F08[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138F08 | type: 1 | value: MUL| { left: 00138EB8 | right: 00138EE0 }}"];
+    node00138F08 -> node00138EB8[color="#0855F0"]
+    node00138EB8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138EB8 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138F08 -> node00138EE0[color="#0855F0"]
+    node00138EE0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138EE0 | type: 1 | value: MUL| { left: 00138E90 | right: 00138E68 }}"];
+    node00138EE0 -> node00138E90[color="#0855F0"]
+    node00138E90[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138E90 | type: 1 | value: SUB| { left: 00138D50 | right: 00138D28 }}"];
+    node00138E90 -> node00138D50[color="#0855F0"]
+    node00138D50[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138D50 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138E90 -> node00138D28[color="#0855F0"]
+    node00138D28[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138D28 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138EE0 -> node00138E68[color="#0855F0"]
+    node00138E68[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138E68 | type: 1 | value: MUL| { left: 00138D00 | right: 00138CB0 }}"];
+    node00138E68 -> node00138D00[color="#0855F0"]
+    node00138D00[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138D00 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138E68 -> node00138CB0[color="#0855F0"]
+    node00138CB0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138CB0 | type: 1 | value: POW| { left: 00138CD8 | right: 00138DF0 }}"];
+    node00138CB0 -> node00138CD8[color="#0855F0"]
+    node00138CD8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138CD8 | type: 1 | value: SUB| { left: 00138E18 | right: 00138E40 }}"];
+    node00138CD8 -> node00138E18[color="#0855F0"]
+    node00138E18[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00138E18 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00138CD8 -> node00138E40[color="#0855F0"]
+    node00138E40[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138E40 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138CB0 -> node00138DF0[color="#0855F0"]
+    node00138DF0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138DF0 | type: 1 | value: SUB| { left: 00138C88 | right: 00138DC8 }}"];
+    node00138DF0 -> node00138C88[color="#0855F0"]
+    node00138C88[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138C88 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138DF0 -> node00138DC8[color="#0855F0"]
+    node00138DC8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138DC8 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node001394B8 -> node00138BC0[color="#0855F0"]
+    node00138BC0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138BC0 | type: 1 | value: POW| { left: 00138C10 | right: 00138760 }}"];
+    node00138BC0 -> node00138C10[color="#0855F0"]
+    node00138C10[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138C10 | type: 1 | value: SUB| { left: 00138BE8 | right: 00138C38 }}"];
+    node00138C10 -> node00138BE8[color="#0855F0"]
+    node00138BE8[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00138BE8 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00138C10 -> node00138C38[color="#0855F0"]
+    node00138C38[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138C38 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138BC0 -> node00138760[color="#0855F0"]
+    node00138760[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138760 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node001395F8 -> node00138B98[color="#0855F0"]
+    node00138B98[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138B98 | type: 1 | value: MUL| { left: 00138800 | right: 00138968 }}"];
+    node00138B98 -> node00138800[color="#0855F0"]
+    node00138800[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138800 | type: 1 | value: MUL| { left: 00138990 | right: 001389B8 }}"];
+    node00138800 -> node00138990[color="#0855F0"]
+    node00138990[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138990 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138800 -> node001389B8[color="#0855F0"]
+    node001389B8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001389B8 | type: 1 | value: POW| { left: 001387B0 | right: 00138B70 }}"];
+    node001389B8 -> node001387B0[color="#0855F0"]
+    node001387B0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001387B0 | type: 1 | value: SUB| { left: 001389E0 | right: 00138AF8 }}"];
+    node001387B0 -> node001389E0[color="#0855F0"]
+    node001389E0[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 001389E0 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node001387B0 -> node00138AF8[color="#0855F0"]
+    node00138AF8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138AF8 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node001389B8 -> node00138B70[color="#0855F0"]
+    node00138B70[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138B70 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138B98 -> node00138968[color="#0855F0"]
+    node00138968[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138968 | type: 1 | value: MUL| { left: 00138A80 | right: 00138918 }}"];
+    node00138968 -> node00138A80[color="#0855F0"]
+    node00138A80[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138A80 | type: 1 | value: SUB| { left: 00138940 | right: 00138B48 }}"];
+    node00138A80 -> node00138940[color="#0855F0"]
+    node00138940[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138940 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138A80 -> node00138B48[color="#0855F0"]
+    node00138B48[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138B48 | type: 0 | value: 0.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138968 -> node00138918[color="#0855F0"]
+    node00138918[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138918 | type: 1 | value: MUL| { left: 00138B20 | right: 00138A08 }}"];
+    node00138918 -> node00138B20[color="#0855F0"]
+    node00138B20[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138B20 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138918 -> node00138A08[color="#0855F0"]
+    node00138A08[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138A08 | type: 1 | value: POW| { left: 00138AA8 | right: 001388C8 }}"];
+    node00138A08 -> node00138AA8[color="#0855F0"]
+    node00138AA8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138AA8 | type: 1 | value: SUB| { left: 00138A58 | right: 001387D8 }}"];
+    node00138AA8 -> node00138A58[color="#0855F0"]
+    node00138A58[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00138A58 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00138AA8 -> node001387D8[color="#0855F0"]
+    node001387D8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001387D8 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138A08 -> node001388C8[color="#0855F0"]
+    node001388C8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001388C8 | type: 1 | value: SUB| { left: 001388A0 | right: 00138788 }}"];
+    node001388C8 -> node001388A0[color="#0855F0"]
+    node001388A0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001388A0 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node001388C8 -> node00138788[color="#0855F0"]
+    node00138788[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138788 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138F90 -> node00138878[color="#0855F0"]
+    node00138878[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138878 | type: 1 | value: MUL| { left: 00138068 | right: 00137FC8 }}"];
+    node00138878 -> node00138068[color="#0855F0"]
+    node00138068[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138068 | type: 1 | value: MUL| { left: 00138090 | right: 00138828 }}"];
+    node00138068 -> node00138090[color="#0855F0"]
+    node00138090[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138090 | type: 1 | value: MUL| { left: 00137FA0 | right: 00137FF0 }}"];
+    node00138090 -> node00137FA0[color="#0855F0"]
+    node00137FA0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00137FA0 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138090 -> node00137FF0[color="#0855F0"]
+    node00137FF0[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00137FF0 | type: 1 | value: POW| { left: 00138108 | right: 00138158 }}"];
+    node00137FF0 -> node00138108[color="#0855F0"]
+    node00138108[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138108 | type: 1 | value: SUB| { left: 001380B8 | right: 001380E0 }}"];
+    node00138108 -> node001380B8[color="#0855F0"]
+    node001380B8[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 001380B8 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00138108 -> node001380E0[color="#0855F0"]
+    node001380E0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001380E0 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00137FF0 -> node00138158[color="#0855F0"]
+    node00138158[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138158 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138068 -> node00138828[color="#0855F0"]
+    node00138828[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138828 | type: 1 | value: POW| { left: 00138A30 | right: 001388F0 }}"];
+    node00138828 -> node00138A30[color="#0855F0"]
+    node00138A30[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138A30 | type: 1 | value: SUB| { left: 00138850 | right: 00138AD0 }}"];
+    node00138A30 -> node00138850[color="#0855F0"]
+    node00138850[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00138850 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00138A30 -> node00138AD0[color="#0855F0"]
+    node00138AD0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138AD0 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138828 -> node001388F0[color="#0855F0"]
+    node001388F0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001388F0 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138878 -> node00137FC8[color="#0855F0"]
+    node00137FC8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00137FC8 | type: 1 | value: MUL| { left: 001381A8 | right: 00137F50 }}"];
+    node00137FC8 -> node001381A8[color="#0855F0"]
+    node001381A8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001381A8 | type: 1 | value: MUL| { left: 001381D0 | right: 00138220 }}"];
+    node001381A8 -> node001381D0[color="#0855F0"]
+    node001381D0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001381D0 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node001381A8 -> node00138220[color="#0855F0"]
+    node00138220[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00138220 | type: 1 | value: POW| { left: 001381F8 | right: 00138270 }}"];
+    node00138220 -> node001381F8[color="#0855F0"]
+    node001381F8[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 001381F8 | type: 1 | value: SUB| { left: 00138130 | right: 00138248 }}"];
+    node001381F8 -> node00138130[color="#0855F0"]
+    node00138130[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00138130 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node001381F8 -> node00138248[color="#0855F0"]
+    node00138248[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138248 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00138220 -> node00138270[color="#0855F0"]
+    node00138270[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 00138270 | type: 0 | value: 2.000000| { left: 00000000 | right: 00000000 }}"];
+    node00137FC8 -> node00137F50[color="#0855F0"]
+    node00137F50[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00137F50 | type: 1 | value: POW| { left: 00137F78 | right: 001382E8 }}"];
+    node00137F50 -> node00137F78[color="#0855F0"]
+    node00137F78[shape=record,style="rounded,filled",fillcolor="#C51BEC",label="{ ptr: 00137F78 | type: 1 | value: SUB| { left: 00138298 | right: 001382C0 }}"];
+    node00137F78 -> node00138298[color="#0855F0"]
+    node00138298[shape=record,style="rounded,filled",fillcolor="#ECC51B",label="{ ptr: 00138298 | type: 2 | value: x| { left: 00000000 | right: 00000000 }}"];
+    node00137F78 -> node001382C0[color="#0855F0"]
+    node001382C0[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001382C0 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+    node00137F50 -> node001382E8[color="#0855F0"]
+    node001382E8[shape=record,style="rounded,filled",fillcolor="#1BECC5",label="{ ptr: 001382E8 | type: 0 | value: 1.000000| { left: 00000000 | right: 00000000 }}"];
+}

@@ -7,6 +7,85 @@ const double Global_x = 2.0;
 #define _NUM(n) new_node(NUM, n, NULL, NULL)
 #define _VAR(x) new_node(VAR, x, NULL, NULL)
 
+variable* prepare_vars_table()
+{
+    variable* vars_table = (variable*)calloc(max_num_variables, sizeof(variable));
+    if (!vars_table) { fprintf(stderr, "ERROR: Calloc for vars_table failed\n"); }
+    return vars_table;
+}
+
+size_t add_variable(variable* vars_table, const char* name, size_t name_length)
+{
+    assert(vars_table);
+    assert(name);
+
+    printf("vars_table on %p\n", vars_table);
+    size_t position = lookup(vars_table, name, name_length);
+    printf("position = %d", position);
+    printf("name: %p; starts with %c\n", name, *name);
+    printf("name_length = %d\n", name_length);
+    if (vars_table[position].name == NULL)
+    {
+        vars_table[position].name      = name;
+        vars_table[position].name_len  = name_length;
+    }
+    dump_variables_table(vars_table);
+    return position;
+}
+
+void ask_variables_values(variable* vars_table)
+{
+    assert(vars_table);
+
+    printf("Enter variables values\n");
+    size_t i = 0;
+    while (vars_table[i].name && i < max_num_variables)
+    {
+        printf ("var%d: name: %.*s\n",
+                i, vars_table[i].name_len, vars_table[i].name, vars_table[i].name_len, vars_table[i].value);
+
+        scanf("%lg", &vars_table[i].value);
+        i++;
+    }
+    printf("\nAll values have been read succesfully\n");
+
+    dump_variables_table(vars_table);
+}
+
+size_t lookup(variable* vars_table, const char* name, size_t name_length)
+{
+    assert(vars_table);
+    assert(name);
+
+    size_t curr = 0;
+    while (vars_table[curr].name && curr < max_num_variables)
+    {
+        if (strncmp(name, vars_table[curr].name, name_length) == 0)
+            break;
+
+        curr++;
+    }
+
+    return curr;
+}
+
+void dump_variables_table(variable* vars_table)
+{
+    assert(vars_table);
+
+    printf("---VARIABLES TABLE DUMP---\n");
+    size_t i = 0;
+    printf("var in %p\n", &vars_table[i]);
+    while (vars_table[i].name && i < max_num_variables)
+    {
+        printf ("var%d: name: [%.*s] len = %d value: [%lg]\n",
+                i, vars_table[i].name_len, vars_table[i].name, vars_table[i].name_len, vars_table[i].value);
+        i++;
+        printf("var in %p\n", &vars_table[i]);
+    }
+    printf("\n--- END ---\n");
+}
+
 node_t* new_node(node_type type, double value, node_t* left, node_t* right)
 {
     node_t* node = (node_t*)calloc(1, sizeof(node_t));
@@ -38,105 +117,15 @@ void fix_tree(node_t* node)
     if (node -> left)  { fix_parents(node -> left);  }
 }
 
-node_t* read_node(const char** curr, const char* end, FILE* html_stream)
+void tree_dtor(node_t* node)
 {
-    assert(end);
-    assert(curr);
-    assert(*curr);
-    assert(html_stream);
-
-    if (*curr >= end) { fprintf(stderr, "STRING END REACHED\n"); return NULL; }
-    *curr = skip_space(*curr);
-    printf("%s\n", *curr);
-
-    //== HANDLE TERMINAL NODES ===================================================//
-    if (isdigit(**curr))
-    {
-        double num = atof(*curr);
-
-        printf("ADDING NUM NODE: %lf\n", num);
-        return _NUM(num);
-    }
-
-    node_t* first_arg = NULL;
-    if (**curr != '{')
-    {                                       // here check if it is in var list, add if yes, else skip
-        *curr = skip_space(*curr);
-        if (**curr == 'x')
-        {
-            char var = **curr;
-            return _VAR('x'); // create var node
-        }
-    }
-    else
-    {
-        (*curr)++;
-        first_arg = read_node(curr, end, html_stream);
-        *curr = skip_until(*curr, '}');
-        (*curr)++;
-    }
-
-    *curr = skip_space(*curr);
-    printf("%s\n", *curr);
-    enum operations func = read_func_name(curr);
-    node_t* op_node = new_node(OP, func, NULL, NULL);
-
-    *curr = skip_space(*curr);
-    printf("%s\n", *curr);
-    node_t* second_arg = NULL;
-    if (**curr == '{')
-    {
-        (*curr)++;
-        second_arg = read_node(curr, end, html_stream);
-        *curr = skip_until(*curr, '}');
-        (*curr)++;
-    }
-
-    op_node -> left  = first_arg;
-    op_node -> right = second_arg;
-
-    return op_node;
+    if (!node) { return; }
+    tree_dtor(node -> left);
+    tree_dtor(node -> right);
+    free(node);
 }
 
-enum operations read_func_name(const char** curr)
-{
-    assert(curr);
-    assert(*curr);
-
-    #define DEF_OPER(oper, eval_rule, diff, call_name)          \
-    if (strncmp(*curr, call_name, strlen(call_name)) == 0)      \
-    {                                                           \
-        printf("oper: %s\n", call_name);                        \
-        *curr = *curr + strlen(call_name);                      \
-        return oper;                                            \
-    }                                                           \
-
-    #include "diff_rules_DSL.h"
-
-    #undef DEF_OPER
-
-    fprintf(stderr, "ERROR: Unknown function: %s", *curr);
-    return UNKNOWN;
-}
-
-const char* skip_space(const char* curr)
-{
-    assert(curr);
-    printf("skipping space start on %c(%d)[%p] ", *curr, *curr, curr);
-    while(isspace(*curr)) { curr++; }
-    printf("end on %c(%d)[%p]\n", *curr, *curr, curr);
-    return curr;
-}
-
-const char* skip_until(const char* curr, char ch)
-{
-    assert(curr);
-    while(*curr != ch) { curr++; }
-
-    return curr;
-}
-
-double eval(node_t* node)
+double evaluate_tree(node_t* node)
 {
     assert(node);
 
@@ -157,9 +146,12 @@ double eval(node_t* node)
     return -1;
 }
 
-node_t* diff(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
+node_t* differentiate_tree(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
     assert(node);
+    assert(tex_stream);
+    assert(roots_stack);
+    assert(subs_stack);
 
     // !!! not for partial derivatives yet !!!
     if (node -> type == NUM) { return _NUM(0);}
@@ -196,6 +188,7 @@ node_t* diff(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs
 void optimize(node_t* node, FILE* html_stream)
 {
     assert(node);
+    assert(html_stream);
 
     size_t opt_counter = 1;
     while (opt_counter > 0)
@@ -220,7 +213,7 @@ size_t const_folding(node_t* node)
 
     if (node -> type == OP && !check_vars(node))
     {
-        node -> value = eval(node);
+        node -> value = evaluate_tree(node);
         node -> type  = NUM;
 
         tree_dtor(node -> left);  node -> left  = NULL;
@@ -235,7 +228,7 @@ size_t const_folding(node_t* node)
 
 size_t remove_neutral_elems(node_t** node)
 {
-    if (!node) { return 0; }
+    if (!node || !(*node)) { return 0; }
 
     size_t opt_counter = 0;
     if ((*node) -> left)  { opt_counter += remove_neutral_elems(&(*node) -> left);  }
@@ -264,14 +257,16 @@ size_t remove_neutral_elems(node_t** node)
     tree_dtor(temp);            \
     opt_counter++              \
 
+#define IS_NUM(direction, x) (((*node) -> direction) -> type == NUM && ((*node) -> direction) -> value == (x))
+
 size_t ADD_optimisation(node_t** node)
 {
     assert(node);
     assert(*node);
 
     size_t opt_counter = 0;
-    if      (((*node) -> left)  -> type == NUM && ((*node) -> left)  -> value == 0) { REPLACE_WITH(right); }
-    else if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { REPLACE_WITH(left);  }
+    if      (IS_NUM(left,  0)) { REPLACE_WITH(right); }
+    else if (IS_NUM(right, 1)) { REPLACE_WITH(left);  }
 
     return opt_counter;
 }
@@ -282,7 +277,7 @@ size_t SUB_optimisation(node_t** node)
     assert(*node);
 
     size_t opt_counter = 0;
-    if (((*node) -> right) -> type == NUM && ((*node) -> right) -> value == 0) { REPLACE_WITH(left); }
+    if (IS_NUM(right, 0)) { REPLACE_WITH(left); }
 
     return opt_counter;
 }
@@ -293,17 +288,10 @@ size_t MUL_optimisation(node_t** node)
     assert(*node);
 
     size_t opt_counter = 0;
-    if (((*node) -> left)  -> type == NUM)
-    {
-        if      (((*node) -> left) -> value == 0) { REPLACE_WITH(left);  }
-        else if (((*node) -> left) -> value == 1) { REPLACE_WITH(right); }
-
-    }
-    else if (((*node) -> right) -> type == NUM)
-    {
-        if      (((*node) -> right) -> value == 0) { REPLACE_WITH(right); }
-        else if (((*node) -> right) -> value == 1) { REPLACE_WITH(left);  }
-    }
+    if      (IS_NUM(left,  0)) { REPLACE_WITH(left);  }
+    else if (IS_NUM(left,  1)) { REPLACE_WITH(right); }
+    else if (IS_NUM(right, 0)) { REPLACE_WITH(right); }
+    else if (IS_NUM(right, 1)) { REPLACE_WITH(left);  }
 
     return opt_counter;
 }
@@ -314,31 +302,26 @@ size_t POW_optimisation(node_t** node)
     assert(*node);
 
     size_t opt_counter = 0;
-    if (((*node) -> left)  -> type == NUM)
+    if (IS_NUM(left, 0) || IS_NUM(left, 1)) { REPLACE_WITH(left); }
+    else if (IS_NUM(right, 0))
     {
-        if (((*node) -> left) -> value == 0 || ((*node) -> left) -> value == 1) { REPLACE_WITH(left); }
+        ((*node) -> right) -> type  = NUM;
+        ((*node) -> right) -> value = 1;
+        REPLACE_WITH(right);
     }
-    else if (((*node) -> right) -> type == NUM)
-    {
-        if      (((*node) -> right) -> value == 0)
-        {
-            ((*node) -> right) -> type  = NUM;
-            ((*node) -> right) -> value = 1;
-            REPLACE_WITH(right);
-        }
-        else if (((*node) -> right) -> value == 1) { REPLACE_WITH(left); }
-    }
+    else if (IS_NUM(right, 1)) { REPLACE_WITH(left); }
 
     return opt_counter;
 }
 
 #undef REPLACE_WITH
+#undef IS_NUM
 
 node_t* copy_tree(node_t* root)
 {
     if (!root) { return NULL; }
 
-    node_t* node = new_node(root -> type, root -> value, NULL, NULL);
+    node_t* node = new_node(root -> type, root -> value, NULL, NULL); // check
     if (root -> left)  { node -> left  = copy_tree(root -> left);  }
     if (root -> right) { node -> right = copy_tree(root -> right); }
 
@@ -353,12 +336,3 @@ bool check_vars(node_t* node)
     else {return (check_vars(node -> left) || check_vars(node -> right)); }
 }
 
-int tree_dtor(node_t* node)
-{
-    if (!node) { return 0; }
-    tree_dtor(node -> left);
-    tree_dtor(node -> right);
-    free(node);
-
-    return 0;
-}

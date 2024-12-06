@@ -12,6 +12,5 @@ node_t* GetE(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream);
 node_t* GetT(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream);
 node_t* GetD(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream);
 node_t* GetP(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream);
-node_t* GetN(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream);
 
 #endif

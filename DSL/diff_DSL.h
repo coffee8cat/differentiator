@@ -1,5 +1,5 @@
-#define LEFT  eval(node -> left)
-#define RIGHT eval(node -> right)
+#define LEFT  evaluate_tree(node -> left)
+#define RIGHT evaluate_tree(node -> right)
 
 #define _NUM(n) new_node(NUM, n, NULL, NULL)
 #define _VAR(x) new_node(VAR, x, NULL, NULL)
@@ -13,7 +13,7 @@
 #define _LOG(b)    new_node(OP, LN, NULL, b)
 #define _POW(a, b) new_node(OP, POW, a,    b)
 
-#define dL  diff (node -> left,  tex_stream, roots_stack, subs_stack)
-#define dR  diff (node -> right, tex_stream, roots_stack, subs_stack)
+#define dL  differentiate_tree (node -> left,  tex_stream, roots_stack, subs_stack)
+#define dR  differentiate_tree (node -> right, tex_stream, roots_stack, subs_stack)
 #define cL  copy_tree (node -> left)
 #define cR  copy_tree (node -> right)

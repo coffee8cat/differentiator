@@ -206,7 +206,7 @@ uint64_t stack_verify(stack_t* stack)
     return stack -> err_stat;
 }
 
-static uint64_t calc_hash(char* start, char* end)
+uint64_t calc_hash(char* start, char* end)
 {
     if (start == NULL || end == NULL)
     {
@@ -223,7 +223,7 @@ static uint64_t calc_hash(char* start, char* end)
     return hash_sum;
 }
 
-static stack_err stack_realloc(stack_t* stack, stack_realloc_state state)
+stack_err stack_realloc(stack_t* stack, stack_realloc_state state)
 {
     if (stack -> capacity == 0)
         return stack_init(stack, default_stack_size, stack -> elem_size);
@@ -319,7 +319,7 @@ stack_err stack_pop(stack_t* stack, void* temp)
         stack -> stack_hash_sum = calc_hash((char*)stack, (char*)&stack -> stack_hash_sum);
     #endif
 
-    if (stack -> size <= stack -> capacity / (realloc_coeff * realloc_coeff) & stack -> size > 32)
+    if ((stack -> size <= stack -> capacity / (realloc_coeff * realloc_coeff)) && (stack -> size > 32))
         stack_realloc(stack, DECREASE);
 
     return OK;
