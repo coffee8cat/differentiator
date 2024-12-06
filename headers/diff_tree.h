@@ -56,10 +56,10 @@ double evaluate_tree(node_t* node, variable* vars_table);
 node_t* differentiate_tree(node_t* node, variable* vars_table, size_t var_num, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
 
 //== OPTIMISATION ===========================================================================//
-void optimize(node_t* node, variable* vars_table, FILE* html_stream);
-size_t const_folding(node_t* node, variable* vars_table);
+void optimize(node_t* node, variable* vars_table, FILE* html_stream, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
+size_t const_folding(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
+size_t remove_neutral_elems(node_t** node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
 
-size_t remove_neutral_elems(node_t** node);
 size_t ADD_optimisation(node_t** node);
 size_t MUL_optimisation(node_t** node);
 size_t SUB_optimisation(node_t** node);

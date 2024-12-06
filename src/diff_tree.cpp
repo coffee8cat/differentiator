@@ -191,7 +191,7 @@ node_t* differentiate_tree(node_t* node, variable* vars_table, size_t var_num, F
     return NULL;
 }
 
-void optimize(node_t* node, variable* vars_table, FILE* html_stream)
+void optimize(node_t* node, variable* vars_table, FILE* html_stream, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
     assert(node);
     assert(html_stream);
@@ -200,27 +200,31 @@ void optimize(node_t* node, variable* vars_table, FILE* html_stream)
     while (opt_counter > 0)
     {
         opt_counter = 0;
-        printf("CONST FOLDING START\n");
-        opt_counter += const_folding(node, vars_table);
-        printf("REMOVING NEUTRAL ELEMS START\n");
-        opt_counter += remove_neutral_elems(&node);
-        printf("DUMP\n");
+        fprintf(tex_stream, "\nLet's see if we can apply constant folding:\n");
+        opt_counter += const_folding(node, vars_table, tex_stream, roots_stack, subs_stack);
+        fprintf(tex_stream, "\nNow we will try removing neutral elements:\n");
+        opt_counter += remove_neutral_elems(&node, vars_table, tex_stream, roots_stack, subs_stack);
         tree_dump(node, html_stream, node);
     }
 }
 
-size_t const_folding(node_t* node, variable* vars_table)
+size_t const_folding(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
     if (!node) { return 0; }
 
     size_t opt_counter = 0;
-    if (node -> left)  { opt_counter += const_folding(node -> left,  vars_table); }
-    if (node -> right) { opt_counter += const_folding(node -> right, vars_table); }
+    if (node -> left)  { opt_counter += const_folding(node -> left,  vars_table, tex_stream, roots_stack, subs_stack); }
+    if (node -> right) { opt_counter += const_folding(node -> right, vars_table, tex_stream, roots_stack, subs_stack); }
 
     if (node -> type == OP && !check_vars(node))
     {
+        fprintf(tex_stream, "\nThere we shall optimize\n");
+        write_node(node, vars_table, tex_stream, roots_stack, subs_stack, 0);
+
         node -> value = evaluate_tree(node, vars_table);
         node -> type  = NUM;
+
+        fprintf(tex_stream, "\nas %lg\n", node -> value);
 
         tree_dtor(node -> left);  node -> left  = NULL;
         tree_dtor(node -> right); node -> right = NULL;
@@ -232,13 +236,13 @@ size_t const_folding(node_t* node, variable* vars_table)
     return opt_counter;
 }
 
-size_t remove_neutral_elems(node_t** node)
+size_t remove_neutral_elems(node_t** node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
     if (!node || !(*node)) { return 0; }
 
     size_t opt_counter = 0;
-    if ((*node) -> left)  { opt_counter += remove_neutral_elems(&(*node) -> left);  }
-    if ((*node) -> right) { opt_counter += remove_neutral_elems(&(*node) -> right); }
+    if ((*node) -> left)  { opt_counter += remove_neutral_elems(&(*node) -> left,  vars_table, tex_stream, roots_stack, subs_stack); }
+    if ((*node) -> right) { opt_counter += remove_neutral_elems(&(*node) -> right, vars_table, tex_stream, roots_stack, subs_stack); }
 
     if ((*node) -> type == OP)
     {

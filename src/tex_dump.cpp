@@ -46,9 +46,9 @@ void tex_ending(FILE* fp)
     "\n\n\\end{document}");
 }
 
-#define WRITE_NODE(node, vars_table, tex_stream, roots_stack, subs_stack, layer)                        \
-    if (layer > 4) { add_substitution(node, tex_stream, roots_stack, subs_stack); }         \
-    else           { write_node(node, vars_table, tex_stream, roots_stack, subs_stack, layer+1); }      \
+#define WRITE_NODE(node, vars_table, tex_stream, roots_stack, subs_stack, layer)                                        \
+    if ((layer > 4) && (count_nodes(node) > 4)) { add_substitution(node, tex_stream, roots_stack, subs_stack); }        \
+    else           { write_node(node, vars_table, tex_stream, roots_stack, subs_stack, layer+1); }                      \
 
 #define DEF_OPER(oper, eval, diff, dump_name, ...) dump_name,
 const char* oper_dump_names[] {
