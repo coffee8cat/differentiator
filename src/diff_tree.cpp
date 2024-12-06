@@ -125,15 +125,16 @@ void tree_dtor(node_t* node)
     free(node);
 }
 
-double evaluate_tree(node_t* node)
+double evaluate_tree(node_t* node, variable* vars_table)
 {
     assert(node);
+    assert(vars_table);
 
-    if (node -> type == NUM) { return node -> value; }
-    if (node -> type == VAR) { return Global_x; }
+    if (node -> type == NUM) { printf("num: %lg\n", node -> value); return node -> value; }
+    if (node -> type == VAR) { return vars_table[(size_t)node -> value].value; }
     if (node -> type == OP)
     {
-        #define DEF_OPER(oper, eval_rule, ...) case oper: return eval_rule;
+        #define DEF_OPER(oper, eval_rule, ...) case oper: printf("oper: %d\n", oper); return eval_rule;
         switch ((int)node -> value)
         {
             #include "diff_rules_DSL.h"
@@ -146,7 +147,7 @@ double evaluate_tree(node_t* node)
     return -1;
 }
 
-node_t* differentiate_tree(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
+node_t* differentiate_tree(node_t* node, variable* vars_table, size_t var_num, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
     assert(node);
     assert(tex_stream);
@@ -155,7 +156,11 @@ node_t* differentiate_tree(node_t* node, FILE* tex_stream, stack_t* roots_stack,
 
     // !!! not for partial derivatives yet !!!
     if (node -> type == NUM) { return _NUM(0);}
-    if (node -> type == VAR) { return _NUM(1);}
+    if (node -> type == VAR)
+    {
+        if ((size_t)node -> value == var_num) { return _NUM(1); }
+        else                                  { return _NUM(0); }
+    }
     if (node -> type == OP)
     {
         #define DEF_OPER(oper, eval_rule, diff_rule, ...) case oper:            \
@@ -163,12 +168,13 @@ node_t* differentiate_tree(node_t* node, FILE* tex_stream, stack_t* roots_stack,
             node_t* node_diff = NULL;                                           \
             diff_rule                                                           \
                                                                                 \
-            fprintf(tex_stream, "\\[\\frac{d}{dx}");                            \
-            write_node (node, tex_stream, roots_stack, subs_stack, 1);          \
+            fprintf(tex_stream, "\\[\\frac{d}{d%.*s}",                          \
+                    vars_table[var_num].name_len, vars_table[var_num].name);    \
+            write_node (node, vars_table, tex_stream, roots_stack, subs_stack, 1);          \
             fprintf(tex_stream, " = " );                                        \
-            write_node (node_diff, tex_stream, roots_stack, subs_stack, 1);     \
+            write_node (node_diff, vars_table, tex_stream, roots_stack, subs_stack, 1);     \
             fprintf(tex_stream, "\\]\n\n");                                     \
-            write_substitutions(tex_stream, roots_stack, subs_stack);           \
+            write_substitutions(tex_stream, vars_table, roots_stack, subs_stack);           \
                                                                                 \
             return node_diff;                                                   \
         }                                                                       \
@@ -185,7 +191,7 @@ node_t* differentiate_tree(node_t* node, FILE* tex_stream, stack_t* roots_stack,
     return NULL;
 }
 
-void optimize(node_t* node, FILE* html_stream)
+void optimize(node_t* node, variable* vars_table, FILE* html_stream)
 {
     assert(node);
     assert(html_stream);
@@ -195,7 +201,7 @@ void optimize(node_t* node, FILE* html_stream)
     {
         opt_counter = 0;
         printf("CONST FOLDING START\n");
-        opt_counter += const_folding(node);
+        opt_counter += const_folding(node, vars_table);
         printf("REMOVING NEUTRAL ELEMS START\n");
         opt_counter += remove_neutral_elems(&node);
         printf("DUMP\n");
@@ -203,17 +209,17 @@ void optimize(node_t* node, FILE* html_stream)
     }
 }
 
-size_t const_folding(node_t* node)
+size_t const_folding(node_t* node, variable* vars_table)
 {
     if (!node) { return 0; }
 
     size_t opt_counter = 0;
-    if (node -> left)  { opt_counter += const_folding(node -> left);  }
-    if (node -> right) { opt_counter += const_folding(node -> right); }
+    if (node -> left)  { opt_counter += const_folding(node -> left,  vars_table); }
+    if (node -> right) { opt_counter += const_folding(node -> right, vars_table); }
 
     if (node -> type == OP && !check_vars(node))
     {
-        node -> value = evaluate_tree(node);
+        node -> value = evaluate_tree(node, vars_table);
         node -> type  = NUM;
 
         tree_dtor(node -> left);  node -> left  = NULL;

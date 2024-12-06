@@ -52,12 +52,12 @@ void fix_tree(node_t* node);
 void tree_dtor(node_t* node);
 
 //== CALCULATIONS ===========================================================================//
-double evaluate_tree (node_t* node);
-node_t* differentiate_tree(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
+double evaluate_tree(node_t* node, variable* vars_table);
+node_t* differentiate_tree(node_t* node, variable* vars_table, size_t var_num, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
 
 //== OPTIMISATION ===========================================================================//
-void optimize(node_t* node, FILE* html_stream);
-size_t const_folding(node_t* node);
+void optimize(node_t* node, variable* vars_table, FILE* html_stream);
+size_t const_folding(node_t* node, variable* vars_table);
 
 size_t remove_neutral_elems(node_t** node);
 size_t ADD_optimisation(node_t** node);

@@ -46,9 +46,9 @@ void tex_ending(FILE* fp)
     "\n\n\\end{document}");
 }
 
-#define WRITE_NODE(node, tex_stream, roots_stack, subs_stack, layer)                        \
+#define WRITE_NODE(node, vars_table, tex_stream, roots_stack, subs_stack, layer)                        \
     if (layer > 4) { add_substitution(node, tex_stream, roots_stack, subs_stack); }         \
-    else           { write_node(node, tex_stream, roots_stack, subs_stack, layer+1); }      \
+    else           { write_node(node, vars_table, tex_stream, roots_stack, subs_stack, layer+1); }      \
 
 #define DEF_OPER(oper, eval, diff, dump_name, ...) dump_name,
 const char* oper_dump_names[] {
@@ -57,21 +57,21 @@ const char* oper_dump_names[] {
 };
 #undef DEF_OPER
 
-void write_node(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack, size_t layer)
+void write_node(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack, size_t layer)
 {
     assert(tex_stream);
     if (!node) { return; }
 
     if (node -> type == NUM) { fprintf(tex_stream, "%lg", node -> value);       }
-    if (node -> type == VAR) { fprintf(tex_stream, "%c", (char)node -> value);  }
+    if (node -> type == VAR) { fprintf(tex_stream, "%.*s", vars_table[(size_t)node -> value].name_len, vars_table[(size_t)node -> value].name);  }
     if (node -> type == OP)
     {
         if (node -> value == DIV)
         {
             fprintf(tex_stream, "\\frac{");
-            WRITE_NODE (node -> left,  tex_stream, roots_stack, subs_stack, layer+1);
+            WRITE_NODE (node -> left,  vars_table, tex_stream, roots_stack, subs_stack, layer+1);
             fprintf(tex_stream, "}{");
-            WRITE_NODE (node -> right, tex_stream, roots_stack, subs_stack, layer+1);
+            WRITE_NODE (node -> right, vars_table, tex_stream, roots_stack, subs_stack, layer+1);
             fprintf(tex_stream, "}");
         }
         else
@@ -79,14 +79,14 @@ void write_node(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* s
             if (node -> left)
             {
                 fprintf(tex_stream, "{(");
-                WRITE_NODE (node -> left,  tex_stream, roots_stack, subs_stack, layer+1);
+                WRITE_NODE (node -> left, vars_table, tex_stream, roots_stack, subs_stack, layer+1);
                 fprintf(tex_stream, ")}");
             }
             fprintf(tex_stream, "%s", oper_dump_names[(size_t)node -> value]);
             if (node -> right)
             {
                 fprintf(tex_stream, "{(");
-                WRITE_NODE (node -> right,  tex_stream, roots_stack, subs_stack, layer+1);
+                WRITE_NODE (node -> right, vars_table, tex_stream, roots_stack, subs_stack, layer+1);
                 fprintf(tex_stream, ")}");
             }
         }
@@ -117,7 +117,7 @@ void add_substitution(node_t* node, FILE* tex_stream, stack_t* roots_stack, stac
     sub++;
 }
 
-void write_substitutions(FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
+void write_substitutions(FILE* tex_stream, variable* vars_table, stack_t* roots_stack, stack_t* subs_stack)
 {
     assert(tex_stream);
     assert(roots_stack);
@@ -133,7 +133,7 @@ void write_substitutions(FILE* tex_stream, stack_t* roots_stack, stack_t* subs_s
         printf("%c = %p\n", temp.label, temp.root);
         fprintf(tex_stream, "\n\\[%c = ", temp.label);
 
-        write_node(temp.root, tex_stream, roots_stack, subs_stack, 1);
+        write_node(temp.root, vars_table, tex_stream, roots_stack, subs_stack, 1);
         fprintf(tex_stream, "\\]\n");
         printf("sub written succesfully\n");
 

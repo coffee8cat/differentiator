@@ -8,9 +8,9 @@ int main()
 {
     #define DUMP_TO_TEX(node, tex_stream, roots_stack, subs_stack)          \
         fprintf(tex_stream, "\\[");                                         \
-        write_node(node, tex_stream, roots_stack, subs_stack, 1);           \
+        write_node(node, vars_table, tex_stream, roots_stack, subs_stack, 1);           \
         fprintf(tex_stream, "\\]\n");                                       \
-        write_substitutions(tex_stream, roots_stack, subs_stack);           \
+        write_substitutions(tex_stream, vars_table, roots_stack, subs_stack);           \
 
     FILE* html_stream = prepare_to_dump();
     if (html_stream == NULL)
@@ -35,7 +35,9 @@ int main()
     stack_init(&roots_stack, 16, sizeof(node_t*));
     stack_init(&subs_stack,  16, sizeof(node_t*));
 
-    const char* buff = "(0-length+size^0)/(2*(length-2)^2*(curiosity-1)^1)$";
+    //const char* buff = "(0-length+size^0)/(2*(length-2)^2*(curiosity-1)^1)$";
+
+    const char* buff = "(length^2+2*size)$";
     lexeme_t* cmds = string_to_lexems(buff, vars_table);
 
     dump_variables_table(vars_table);
@@ -53,12 +55,14 @@ int main()
     node_t* node = GetG(cmds, &curr, html_stream);
     tree_dump(node, html_stream, node);
 
-    /*
-    node_t* diff_root = differentiate_tree(node, tex_stream, &roots_stack, &subs_stack);
+    printf("evaluation result: %lg\n", evaluate_tree(node, vars_table));
+
+
+    node_t* diff_root = differentiate_tree(node, vars_table, 0, tex_stream, &roots_stack, &subs_stack);
     printf("%p\n\n", diff_root);
     tree_dump(diff_root, html_stream, diff_root);
 
-    optimize(diff_root, html_stream);
+    optimize(diff_root, vars_table, html_stream);
     printf("OPTIMISATION END, diff_root: [%p]\n", diff_root);
 
     tree_dump(diff_root, html_stream, diff_root);
@@ -68,11 +72,10 @@ int main()
     STACK_DUMP(&roots_stack, __func__);
     STACK_DUMP(&subs_stack,  __func__);
 
-    printf("diff evaluate_tree: %lf\n", evaluate_tree(diff_root));
+    printf("diff evaluate_tree: %lf\n", evaluate_tree(diff_root, vars_table));
 
     tree_dtor(node);
     tree_dtor(diff_root);
-    */
 
     close_TEX_stream(tex_stream);
     fclose(html_stream);

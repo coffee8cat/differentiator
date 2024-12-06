@@ -21,10 +21,10 @@ void tex_intro(FILE* fp);
 void close_TEX_stream(FILE* fp);
 void tex_ending(FILE* fp);
 
-void write_node(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack, size_t layer);
+void write_node(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack, size_t layer);
 size_t count_nodes(node_t* node);
 
 void add_substitution(node_t* node, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
-void write_substitutions(FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack);
+void write_substitutions(FILE* tex_stream, variable* vars_table, stack_t* roots_stack, stack_t* subs_stack);
 
 #endif
