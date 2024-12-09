@@ -123,9 +123,7 @@ stack_err stack_pop (stack_t* stack, void* temp);
 
 static int dump_double(size_t i, stack_t* stack)
 {
-    double temp = 0;
-    memcpy(&temp, (char*)stack -> data + i * stack -> elem_size, stack -> elem_size);
-    return printf("%4d:[%p]\n", i, temp);
+    return printf("%4d:[%p]\n", i, (char*)stack -> data + i * stack -> elem_size, stack -> elem_size);
 }
 /*
 int dump_uint64_t(size_t i, stack_t* stack)

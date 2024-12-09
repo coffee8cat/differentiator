@@ -53,7 +53,7 @@ int main()
 
     size_t curr = 0;
     node_t* node = GetG(cmds, &curr, html_stream);
-    tree_dump(node, html_stream, node);
+    tree_dump(node, vars_table, html_stream, node);
 
     fprintf(tex_stream, "\nGentlemen, it's a great pleasure to inform you that today we are differentiating\n");
     DUMP_TO_TEX(node, tex_stream, &roots_stack, &subs_stack);
@@ -63,12 +63,12 @@ int main()
     fprintf(tex_stream, "\nThere we begin...\n");
     node_t* diff_root = differentiate_tree(node, vars_table, 0, tex_stream, &roots_stack, &subs_stack);
     printf("%p\n\n", diff_root);
-    tree_dump(diff_root, html_stream, diff_root);
+    tree_dump(diff_root, vars_table, html_stream, diff_root);
 
     optimize(diff_root, vars_table, html_stream, tex_stream, &roots_stack, &subs_stack);
     printf("OPTIMISATION END, diff_root: [%p]\n", diff_root);
 
-    tree_dump(diff_root, html_stream, diff_root);
+    tree_dump(diff_root, vars_table, html_stream, diff_root);
 
 
     fprintf(tex_stream, "\nFinally, after a long battle, we emerged victorious:\n");

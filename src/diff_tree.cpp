@@ -2,10 +2,11 @@
 #include "tree_dump.h"
 #include "tex_dump.h"
 
-const double Global_x = 2.0;
+//#define NUM_VALUE(n) node_value {num_value = (n)}
+//#define VAR_VALUE(x) node_value {var_value = (x)}
 
-#define _NUM(n) new_node(NUM, n, NULL, NULL)
-#define _VAR(x) new_node(VAR, x, NULL, NULL)
+//#define _NUM(n) new_node(NUM, NUM_VALUE(n), NULL, NULL)
+//#define _VAR(x) new_node(VAR, VAR_VALUE(x), NULL, NULL)
 
 variable* prepare_vars_table()
 {
@@ -42,7 +43,7 @@ void ask_variables_values(variable* vars_table)
     while (vars_table[i].name && i < max_num_variables)
     {
         printf ("var%d: name: %.*s\n",
-                i, vars_table[i].name_len, vars_table[i].name, vars_table[i].name_len, vars_table[i].value);
+                i, vars_table[i].name_len, vars_table[i].name);
 
         scanf("%lg", &vars_table[i].value);
         i++;
@@ -86,7 +87,7 @@ void dump_variables_table(variable* vars_table)
     printf("\n--- END ---\n");
 }
 
-node_t* new_node(node_type type, double value, node_t* left, node_t* right)
+node_t* new_node(node_type type, node_value value, node_t* left, node_t* right)
 {
     node_t* node = (node_t*)calloc(1, sizeof(node_t));
     if (!node)
@@ -130,15 +131,15 @@ double evaluate_tree(node_t* node, variable* vars_table)
     assert(node);
     assert(vars_table);
 
-    if (node -> type == NUM) { printf("num: %lg\n", node -> value); return node -> value; }
-    if (node -> type == VAR) { return vars_table[(size_t)node -> value].value; }
+    if (node -> type == NUM) { printf("num: %lg\n", node -> value.num); return node -> value.num; }
+    if (node -> type == VAR) { return vars_table[node -> value.var].value; }
     if (node -> type == OP)
     {
         #define DEF_OPER(oper, eval_rule, ...) case oper: printf("oper: %d\n", oper); return eval_rule;
-        switch ((int)node -> value)
+        switch (node -> value.op)
         {
             #include "diff_rules_DSL.h"
-            default: fprintf(stderr, "ERROR: No such operation - [%lf]", node -> value);
+            default: fprintf(stderr, "ERROR: No such operation - [%lf]", node -> value.op);
                      break;
         }
         #undef DEF_OPER
@@ -154,12 +155,11 @@ node_t* differentiate_tree(node_t* node, variable* vars_table, size_t var_num, F
     assert(roots_stack);
     assert(subs_stack);
 
-    // !!! not for partial derivatives yet !!!
     if (node -> type == NUM) { return _NUM(0);}
     if (node -> type == VAR)
     {
-        if ((size_t)node -> value == var_num) { return _NUM(1); }
-        else                                  { return _NUM(0); }
+        if (node -> value.var == var_num) { return _NUM(1); }
+        else                              { return _NUM(0); }
     }
     if (node -> type == OP)
     {
@@ -179,7 +179,7 @@ node_t* differentiate_tree(node_t* node, variable* vars_table, size_t var_num, F
             return node_diff;                                                   \
         }                                                                       \
 
-        switch ((int)node -> value)
+        switch (node -> value.op)
         {
             #include "diff_rules_DSL.h"
             default: fprintf(stderr, "ERROR: Unknown operation for differentiator - [%lf]", node -> value);
@@ -204,7 +204,7 @@ void optimize(node_t* node, variable* vars_table, FILE* html_stream, FILE* tex_s
         opt_counter += const_folding(node, vars_table, tex_stream, roots_stack, subs_stack);
         fprintf(tex_stream, "\nNow we will try removing neutral elements:\n");
         opt_counter += remove_neutral_elems(&node, vars_table, tex_stream, roots_stack, subs_stack);
-        tree_dump(node, html_stream, node);
+        tree_dump(node, vars_table, html_stream, node);
     }
 }
 
@@ -221,7 +221,7 @@ size_t const_folding(node_t* node, variable* vars_table, FILE* tex_stream, stack
         fprintf(tex_stream, "\nThere we shall optimize\n");
         write_node(node, vars_table, tex_stream, roots_stack, subs_stack, 0);
 
-        node -> value = evaluate_tree(node, vars_table);
+        node -> value.num = evaluate_tree(node, vars_table);
         node -> type  = NUM;
 
         fprintf(tex_stream, "\nas %lg\n", node -> value);
@@ -246,7 +246,7 @@ size_t remove_neutral_elems(node_t** node, variable* vars_table, FILE* tex_strea
 
     if ((*node) -> type == OP)
     {
-        switch((int)(*node) -> value)
+        switch((*node) -> value.op)
         {
             case ADD: opt_counter += ADD_optimisation(node); printf("ADD OPTIMISATION\n"); break;
             case SUB: opt_counter += SUB_optimisation(node); printf("SUB OPTIMISATION\n"); break;
@@ -267,7 +267,7 @@ size_t remove_neutral_elems(node_t** node, variable* vars_table, FILE* tex_strea
     tree_dtor(temp);            \
     opt_counter++              \
 
-#define IS_NUM(direction, x) (((*node) -> direction) -> type == NUM && ((*node) -> direction) -> value == (x))
+#define IS_NUM(direction, x) (((*node) -> direction) -> type == NUM && ((*node) -> direction) -> value.num == (x))
 
 size_t ADD_optimisation(node_t** node)
 {
@@ -315,8 +315,8 @@ size_t POW_optimisation(node_t** node)
     if (IS_NUM(left, 0) || IS_NUM(left, 1)) { REPLACE_WITH(left); }
     else if (IS_NUM(right, 0))
     {
-        ((*node) -> right) -> type  = NUM;
-        ((*node) -> right) -> value = 1;
+        ((*node) -> right) -> type = NUM;
+        ((*node) -> right) -> value.num = 1;
         REPLACE_WITH(right);
     }
     else if (IS_NUM(right, 1)) { REPLACE_WITH(left); }

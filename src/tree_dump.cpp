@@ -15,7 +15,7 @@ FILE* prepare_to_dump()
     return fp;
 }
 
-int tree_dump(node_t* root, FILE* html_stream, node_t* curr)
+int tree_dump(node_t* root, variable* vars_table, FILE* html_stream, node_t* curr)
 {
     static size_t dump_counter = 1;
     char dot_file_name[BUFSIZ] = "";
@@ -30,7 +30,7 @@ int tree_dump(node_t* root, FILE* html_stream, node_t* curr)
         return -1;
     }
 
-    make_dot_file(root, fp, curr);
+    make_dot_file(root, vars_table, fp, curr);
     fclose(fp);
 
     char command[BUFSIZ] = "";
@@ -56,7 +56,7 @@ int dump_to_html(node_t* root, char* png_file_name, FILE* html_stream, node_t* c
     return 0;
 }
 
-int make_dot_file(node_t* root, FILE* fp, node_t* curr)
+int make_dot_file(node_t* root, variable* vars_table, FILE* fp, node_t* curr)
 {
     assert(fp);
     assert(root);
@@ -65,7 +65,7 @@ int make_dot_file(node_t* root, FILE* fp, node_t* curr)
                 "    rankdir=TP\n\n"
                 "    ");
 
-    write_node_info(root, fp, curr);
+    write_node_info(root, vars_table, fp, curr);
 
     fprintf(fp, "}");
 
@@ -80,7 +80,7 @@ const char* operations[] {
 };
 #undef DEF_OPER
 
-int write_node_info(node_t* node, FILE* fp, node_t* curr)
+int write_node_info(node_t* node, variable* vars_table, FILE* fp, node_t* curr)
 {
     assert(fp);
 
@@ -89,11 +89,11 @@ int write_node_info(node_t* node, FILE* fp, node_t* curr)
     const char* color = NULL;
     char* value = (char*)calloc(16, sizeof(char));
 
-    if (node -> type == OP)  { color = "#C51BEC"; strcpy(value, operations[(size_t)node -> value]);}
-    if (node -> type == NUM) { color = "#1BECC5"; sprintf(value, "%lf", node -> value);}
-    if (node -> type == VAR) { color = "#ECC51B"; sprintf(value, "%lf", node -> value);}
+    if (node -> type == OP)  { color = "#C51BEC"; strcpy(value, operations[(size_t)node -> value.op]);}
+    if (node -> type == NUM) { color = "#1BECC5"; strncpy(value, vars_table[node -> value.var].name,
+                                                                 vars_table[node -> value.var].name_len);}
+    if (node -> type == VAR) { color = "#ECC51B"; sprintf(value, "%d", node -> value.var);}
     if (node == curr)        { color = "#BF62FC"; }
-
 
     fprintf(fp, "    node%p[shape=record,style=\"rounded,filled\",fillcolor=\"%s\",label=\"{ ptr: %p | type: %d | value: %s| { left: %p | right: %p }}\"];\n",
             node, color, node, node -> type, value, node -> left, node -> right);
@@ -101,12 +101,12 @@ int write_node_info(node_t* node, FILE* fp, node_t* curr)
     if (node -> left)
     {
         fprintf(fp, "    node%p -> node%p[color=\"#0855F0\"]\n", node, node -> left);
-        write_node_info(node -> left, fp, curr);
+        write_node_info(node -> left, vars_table, fp, curr);
     }
     if (node -> right)
     {
         fprintf(fp, "    node%p -> node%p[color=\"#0855F0\"]\n", node, node -> right);
-        write_node_info(node -> right, fp, curr);
+        write_node_info(node -> right, vars_table, fp, curr);
     }
     free(value);
 

@@ -9,9 +9,9 @@
 #include "diff_tree.h"
 
 FILE* prepare_to_dump();
-int tree_dump(node_t* root, FILE* html_stream, node_t* curr);
+int tree_dump(node_t* root, variable* vars_table, FILE* html_stream, node_t* curr);
 int dump_to_html(node_t* root, char* png_file_name, FILE* html_stream, node_t* curr);
-int make_dot_file   (node_t* root, FILE* fp, node_t* curr);
-int write_node_info (node_t* node, FILE* fp, node_t* curr);
+int make_dot_file   (node_t* root, variable* vars_table, FILE* fp, node_t* curr);
+int write_node_info (node_t* node, variable* vars_table, FILE* fp, node_t* curr);
 
 #endif

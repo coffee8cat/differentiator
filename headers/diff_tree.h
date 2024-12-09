@@ -21,10 +21,17 @@ enum operations {
 
 enum node_type {NUM, OP, VAR};
 
+union node_value
+{
+    double num;
+    size_t op;
+    size_t var;
+};
+
 struct node_t
 {
     node_type type;
-    double value;
+    node_value value;
     node_t* left;
     node_t* right;
     node_t* parent;
@@ -46,7 +53,7 @@ size_t lookup(variable* vars_table, const char* name, size_t name_length);
 void dump_variables_table(variable* vars_table);
 
 //== TREE FUNCTIONS =========================================================================//
-node_t* new_node(node_type type, double value, node_t* left, node_t* right);
+node_t* new_node(node_type type, node_value value, node_t* left, node_t* right);
 void fix_parents(node_t* node);
 void fix_tree(node_t* node);
 void tree_dtor(node_t* node);

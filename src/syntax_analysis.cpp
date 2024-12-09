@@ -1,25 +1,28 @@
 #include "syntax_analysis.h"
 
-#define _ADD(a, b) new_node(OP, ADD, a,    b)
-#define _SUB(a, b) new_node(OP, SUB, a,    b)
-#define _MUL(a, b) new_node(OP, MUL, a,    b)
-#define _DIV(a, b) new_node(OP, DIV, a,    b)
-#define _COS(b)    new_node(OP, COS, NULL, b)
-#define _SIN(b)    new_node(OP, SIN, NULL, b)
-#define _LOG(b)    new_node(OP, LN, NULL, b)
-#define _POW(a, b) new_node(OP, POW, a,    b)
+#define _ADD(a, b) new_node(OP, OP_VALUE(ADD), a,    b)
+#define _SUB(a, b) new_node(OP, OP_VALUE(SUB), a,    b)
+#define _MUL(a, b) new_node(OP, OP_VALUE(MUL), a,    b)
+#define _DIV(a, b) new_node(OP, OP_VALUE(DIV), a,    b)
+#define _COS(b)    new_node(OP, OP_VALUE(COS), NULL, b)
+#define _SIN(b)    new_node(OP, OP_VALUE(SIN), NULL, b)
+#define _LOG(b)    new_node(OP, OP_VALUE(LN),  NULL, b)
+#define _POW(a, b) new_node(OP, OP_VALUE(POW), a,    b)
+
+#define OP_VALUE(oper) node_value {.op = (oper)}
 
 #define GRAMMAR_DEBUG_PRINT() \
 printf("in %s on %4d: %d\nvalue = %lg\n", __func__, *curr,              \
     lexeme_array[*curr].type,                                           \
     lexeme_array[*curr].value);                                         \
 
+
 node_t* GetG(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 {
     GRAMMAR_DEBUG_PRINT();
     node_t* node = GetE(lexeme_array, curr, html_stream);
     GRAMMAR_DEBUG_PRINT();
-    if ((char)lexeme_array[*curr].value != '$') { tree_dump(node, html_stream, node); assert(0); }
+    if ((char)lexeme_array[*curr].value != '$') { assert(0); }
     (*curr)++;
     return node;
 }
@@ -100,7 +103,7 @@ node_t* GetP(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
                 printf("---ADDING OPERATION ---\n");
                 operations operation = (operations)lexeme_array[*curr].value;
                 (*curr)++;
-                return new_node(OP, operation, NULL, GetE(lexeme_array, curr, html_stream));
+                return new_node(OP, OP_VALUE(operation), NULL, GetE(lexeme_array, curr, html_stream));
             }
         }
         case ID:    { return _VAR(lexeme_array[(*curr)++].value); }
@@ -112,6 +115,7 @@ node_t* GetP(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
     }
 }
 
+#undef OP_VALUE
 
 #undef _NUM
 #undef _VAR

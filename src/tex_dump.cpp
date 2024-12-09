@@ -62,11 +62,11 @@ void write_node(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* r
     assert(tex_stream);
     if (!node) { return; }
 
-    if (node -> type == NUM) { fprintf(tex_stream, "%lg", node -> value);       }
-    if (node -> type == VAR) { fprintf(tex_stream, "%.*s", vars_table[(size_t)node -> value].name_len, vars_table[(size_t)node -> value].name);  }
+    if (node -> type == NUM) { fprintf(tex_stream, "%lg", node -> value.num); }
+    if (node -> type == VAR) { fprintf(tex_stream, "%.*s", vars_table[node -> value.var].name_len, vars_table[node -> value.var].name);  }
     if (node -> type == OP)
     {
-        if (node -> value == DIV)
+        if (node -> value.op== DIV)
         {
             fprintf(tex_stream, "\\frac{");
             WRITE_NODE (node -> left,  vars_table, tex_stream, roots_stack, subs_stack, layer+1);
@@ -82,7 +82,7 @@ void write_node(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* r
                 WRITE_NODE (node -> left, vars_table, tex_stream, roots_stack, subs_stack, layer+1);
                 fprintf(tex_stream, ")}");
             }
-            fprintf(tex_stream, "%s", oper_dump_names[(size_t)node -> value]);
+            fprintf(tex_stream, "%s", oper_dump_names[node -> value.op]);
             if (node -> right)
             {
                 fprintf(tex_stream, "{(");

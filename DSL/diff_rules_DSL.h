@@ -53,6 +53,12 @@ DEF_OPER(POW,
 #undef LEFT
 #undef RIGHT
 
+//#undef NUM_VALUE
+//#undef VAR_VALUE
+
+//#undef _NUM
+//#undef _VAR
+
 #undef _ADD
 #undef _SUB
 #undef _MUL
