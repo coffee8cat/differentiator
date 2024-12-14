@@ -120,12 +120,4 @@ void add_label(lexeme_t* lexeme_array, size_t lexeme_num, const char** curr, var
     lexeme_array[lexeme_num].value = position;
 
     *curr = label_end;
-    /*strncpy(lexeme_array[lexeme_num].label, *curr, (size_t)(label_end - *curr));
-    lexeme_array[lexeme_num].type = ID;
-
-
-
-    strncpy(vars_table[var_counter].name, *curr, (size_t)(label_end - *curr));
-    add_variable(vars_table, lexeme_array[lexeme_num].label, 0);
-    var_counter++;*/
 }

@@ -16,19 +16,33 @@ printf("in %s on %4d: %d\nvalue = %lg\n", __func__, *curr,              \
     lexeme_array[*curr].type,                                           \
     lexeme_array[*curr].value);                                         \
 
+#define SYNTAX_ERROR(expected)                                                                  \
+    fprintf(stderr, "\n\n!!! SYNTAX ERROR !!!\n"                                                \
+                    "In %s:%d in %s on position %d expected <%d(%c)>, but <%d(%c)> found\n",    \
+                    __FILE__, __LINE__, __func__, *curr, expected, expected,                    \
+                    lexeme_array[*curr].value, lexeme_array[*curr].value)                       \
+
 
 node_t* GetG(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 {
+    assert(lexeme_array);
+    assert(curr);
+    assert(html_stream);
+
     GRAMMAR_DEBUG_PRINT();
     node_t* node = GetE(lexeme_array, curr, html_stream);
     GRAMMAR_DEBUG_PRINT();
-    if ((char)lexeme_array[*curr].value != '$') { assert(0); }
+    if ((char)lexeme_array[*curr].value != '$') { SYNTAX_ERROR('$'); assert(0); }
     (*curr)++;
     return node;
 }
 
 node_t* GetE(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 {
+    assert(lexeme_array);
+    assert(curr);
+    assert(html_stream);
+
     GRAMMAR_DEBUG_PRINT();
     node_t* node = GetT(lexeme_array, curr, html_stream);
     GRAMMAR_DEBUG_PRINT();
@@ -47,6 +61,10 @@ node_t* GetE(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 
 node_t* GetT(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 {
+    assert(lexeme_array);
+    assert(curr);
+    assert(html_stream);
+
     GRAMMAR_DEBUG_PRINT();
     node_t* node = GetD(lexeme_array, curr, html_stream);
     GRAMMAR_DEBUG_PRINT();
@@ -65,6 +83,10 @@ node_t* GetT(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 
 node_t* GetD(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 {
+    assert(lexeme_array);
+    assert(curr);
+    assert(html_stream);
+
     GRAMMAR_DEBUG_PRINT();
     node_t* node = GetP(lexeme_array, curr, html_stream);
     GRAMMAR_DEBUG_PRINT();
@@ -82,6 +104,10 @@ node_t* GetD(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 
 node_t* GetP(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
 {
+    assert(lexeme_array);
+    assert(curr);
+    assert(html_stream);
+
     GRAMMAR_DEBUG_PRINT();
     switch(lexeme_array[*curr].type)
     {
@@ -109,7 +135,8 @@ node_t* GetP(lexeme_t* lexeme_array, size_t* curr, FILE* html_stream)
         case ID:    { return _VAR(lexeme_array[(*curr)++].value); }
         case NUM_L: { return _NUM(lexeme_array[(*curr)++].value); }
 
-        default: fprintf(stderr, "ERROR: Invalid lexeme type: %d\n", lexeme_array[*curr].type);
+        default: SYNTAX_ERROR('\0');
+                 fprintf(stderr, "ERROR: Invalid lexeme type: %d\n", lexeme_array[*curr].type);
                  assert(0);
                  break;
     }

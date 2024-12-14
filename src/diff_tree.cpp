@@ -2,12 +2,6 @@
 #include "tree_dump.h"
 #include "tex_dump.h"
 
-//#define NUM_VALUE(n) node_value {num_value = (n)}
-//#define VAR_VALUE(x) node_value {var_value = (x)}
-
-//#define _NUM(n) new_node(NUM, NUM_VALUE(n), NULL, NULL)
-//#define _VAR(x) new_node(VAR, VAR_VALUE(x), NULL, NULL)
-
 variable* prepare_vars_table()
 {
     variable* vars_table = (variable*)calloc(max_num_variables, sizeof(variable));
@@ -151,6 +145,7 @@ double evaluate_tree(node_t* node, variable* vars_table)
 node_t* differentiate_tree(node_t* node, variable* vars_table, size_t var_num, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
     assert(node);
+    assert(vars_table);
     assert(tex_stream);
     assert(roots_stack);
     assert(subs_stack);
@@ -195,6 +190,10 @@ void optimize(node_t* node, variable* vars_table, FILE* html_stream, FILE* tex_s
 {
     assert(node);
     assert(html_stream);
+    assert(vars_table);
+    assert(tex_stream);
+    assert(roots_stack);
+    assert(subs_stack);
 
     size_t opt_counter = 1;
     while (opt_counter > 0)
@@ -210,6 +209,10 @@ void optimize(node_t* node, variable* vars_table, FILE* html_stream, FILE* tex_s
 
 size_t const_folding(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
+    assert(vars_table);
+    assert(tex_stream);
+    assert(roots_stack);
+    assert(subs_stack);
     if (!node) { return 0; }
 
     size_t opt_counter = 0;
@@ -238,6 +241,11 @@ size_t const_folding(node_t* node, variable* vars_table, FILE* tex_stream, stack
 
 size_t remove_neutral_elems(node_t** node, variable* vars_table, FILE* tex_stream, stack_t* roots_stack, stack_t* subs_stack)
 {
+    assert(vars_table);
+    assert(tex_stream);
+    assert(roots_stack);
+    assert(subs_stack);
+
     if (!node || !(*node)) { return 0; }
 
     size_t opt_counter = 0;

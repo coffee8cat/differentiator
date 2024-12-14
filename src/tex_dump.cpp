@@ -47,7 +47,7 @@ void tex_ending(FILE* fp)
 }
 
 #define WRITE_NODE(node, vars_table, tex_stream, roots_stack, subs_stack, layer)                                        \
-    if ((layer > 4) && (count_nodes(node) > 4)) { add_substitution(node, tex_stream, roots_stack, subs_stack); }        \
+    if ((layer > 100) && (count_nodes(node) > 4)) { add_substitution(node, tex_stream, roots_stack, subs_stack); }        \
     else           { write_node(node, vars_table, tex_stream, roots_stack, subs_stack, layer+1); }                      \
 
 #define DEF_OPER(oper, eval, diff, dump_name, ...) dump_name,
@@ -62,6 +62,7 @@ void write_node(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* r
     assert(tex_stream);
     if (!node) { return; }
 
+    fix_tree(node);
     if (node -> type == NUM) { fprintf(tex_stream, "%lg", node -> value.num); }
     if (node -> type == VAR) { fprintf(tex_stream, "%.*s", vars_table[node -> value.var].name_len, vars_table[node -> value.var].name);  }
     if (node -> type == OP)
@@ -76,24 +77,56 @@ void write_node(node_t* node, variable* vars_table, FILE* tex_stream, stack_t* r
         }
         else
         {
+            printf("\n\n\nGOT THERE!!!!!!!!!!!!!!!!!!!!\n\n\n");
             if (node -> left)
             {
-                fprintf(tex_stream, "{(");
+                printf("LEFT TREE HANDLING\n");
+                fprintf(tex_stream, "{");
+                if (if_add_brackets(node -> left)) { fprintf(tex_stream, "("); }
                 WRITE_NODE (node -> left, vars_table, tex_stream, roots_stack, subs_stack, layer+1);
-                fprintf(tex_stream, ")}");
+                if (if_add_brackets(node -> left)) { fprintf(tex_stream, ")"); }
+                fprintf(tex_stream, "}");
             }
             fprintf(tex_stream, "%s", oper_dump_names[node -> value.op]);
             if (node -> right)
             {
-                fprintf(tex_stream, "{(");
+                printf("RIGHT TREE HANDLING\n");
+                fprintf(tex_stream, "{");
+                if (if_add_brackets(node -> right)) { fprintf(tex_stream, "("); }
                 WRITE_NODE (node -> right, vars_table, tex_stream, roots_stack, subs_stack, layer+1);
-                fprintf(tex_stream, ")}");
+                if (if_add_brackets(node -> right)) { fprintf(tex_stream, ")"); }
+                fprintf(tex_stream, "}");
             }
         }
     }
 }
 
 #undef WRITE_NODE
+
+bool if_add_brackets(node_t* node)
+{
+    assert(node);
+    if ((node -> parent) == NULL) { printf("FAILURE"); return false;}
+
+    if ((node -> parent) -> type == OP && node -> type == OP)
+    {
+        if ((node -> parent) -> value.op == POW || (node -> parent) -> value.op == COS || (node -> parent) -> value.op == SIN)
+        {
+            return true;
+        }
+        if ((node -> parent) -> value.op == MUL)
+        {
+            if (node -> value.op == ADD || node -> value.op == SUB)
+            {
+                printf("curr: %d parent: %d - false\n", node -> value.op, node -> parent -> value.op);
+                return true;
+            }
+        }
+    }
+
+    printf("--------------------------\n\n\n\n\n\n\ncurr: %d parent: %d - true\n", node -> value.op, node -> parent -> value.op);
+    return false;
+}
 
 size_t count_nodes(node_t* node)
 {
