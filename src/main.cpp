@@ -52,10 +52,11 @@ int main()
     STACK_DUMP(&subs_stack,  __func__);
 
 
-    tree_dtor(node);
-    tree_dtor(diff_root);
+    tree_dtor(node, true);
+    tree_dtor(diff_root, true);
 
     close_TEX_stream(tex_stream);
     fclose(html_stream);
+    printf("END OF PROGRAMM\n");
     return 0;
 }

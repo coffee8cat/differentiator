@@ -56,7 +56,7 @@ void dump_variables_table(variable* vars_table);
 node_t* new_node(node_type type, node_value value, node_t* left, node_t* right);
 void fix_parents(node_t* node);
 void fix_tree(node_t* node);
-void tree_dtor(node_t* node);
+void tree_dtor(node_t* node, bool is_recursive);
 
 //== CALCULATIONS ===========================================================================//
 double evaluate_tree(node_t* node, variable* vars_table);
